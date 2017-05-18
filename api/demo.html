@@ -1,0 +1,431 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="/editor/jsoneditor.css" rel="stylesheet" type="text/css">
+    <script src="/editor/jsoneditor.js"></script>
+</head>
+<body>
+<div>
+    <div id="jsoneditor" style="float: left;width: 50%;"></div>
+    <div id="jsonviewer" style="float: left;width: 50%;height: 100%;overflow: scroll;"></div>
+    <div style="clear: both;"></div>
+</div>
+<script>
+  var json =
+    [
+      [
+        {
+          'type': 'hidden',
+          'name': 'id',
+          'defaultValue': '5a29fee86f89f14cd867f91d'
+        },
+        {
+          'type': 'hidden',
+          'name': 'no',
+          'defaultValue': 'CDEVNO_113'
+        }
+      ],
+      [
+        {
+          'type': 'div',
+          'className': [
+            'text-center font18',
+            {
+              'sm': 24,
+              'offset': 0
+            }
+          ],
+          'children': [
+            '设备状态信息报告'
+          ]
+        }
+      ],
+      [
+        {
+          'type': 'div',
+          'className': [
+            'text-left fl',
+            {
+              'sm': 10,
+              'offset': 0
+            }
+          ],
+          'children': [
+            '设备信息管理'
+          ]
+        },
+        {
+          'type': 'div',
+          'className': [
+            'text-right fr',
+            {
+              'sm': 10,
+              'offset': 4
+            }
+          ],
+          'children': [
+            '报告起止日期: 2017-03-01~2017-03-31'
+          ]
+        }
+      ],
+      [
+        {
+          'type': 'div',
+          'className': [
+            'div-table'
+          ],
+          'children': [
+            {
+              'type': 'div',
+              'className': [
+                'div-table-tr'
+              ],
+              'children': [
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '名称'
+                  ]
+                },
+                {
+                  'type': 'input',
+                  'id': 'name',
+                  'name': 'name',
+                  'defaultValue': '大发生的',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3,
+                      'offset': 0
+                    }
+                  ],
+                  'title': '提示信息',
+                  'style': {},
+                  'maxLength': 8,
+                  'placeholder': '请填写姓名',
+                  'validate': {
+                    'reg': '',
+                    'maxLength': 8,
+                    'required': true
+                  },
+                  'validateMessage': '名称错误'
+                },
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '编号'
+                  ]
+                },
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    'CDEVNO113'
+                  ]
+                },
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '生产日期'
+                  ]
+                },
+                {
+                  'type': 'date',
+                  'name': 'product_date',
+                  'defaultValue': '1493707725',
+                  'validateMessage': '格式不正确',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'validate': {
+                    'required': true
+                  }
+                },
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '投入使用日期'
+                  ]
+                },
+                {
+                  'type': 'date',
+                  'name': 'use_date',
+                  'defaultValue': '1493707725',
+                  'validateMessage': '格式不正确',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'validate': {
+                    'required': true
+                  }
+                }
+              ]
+            },
+            {
+              'type': 'div',
+              'className': [
+                'div-table-tr'
+              ],
+              'children': [
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '客户'
+                  ]
+                },
+                {
+                  'type': 'select',
+                  'id': 'customer',
+                  'name': 'customer',
+                  'target': 'device',
+                  'defaultValue': '',
+                  'className': [
+                    'color-red',
+                    {
+                      'sm': 3,
+                      'offset': 0
+                    }
+                  ],
+                  'title': '提示信息',
+                  'style': {
+                    'padding': 0
+                  },
+                  'placeholder': '请填选择客户',
+                  'validate': {
+                    'required': true
+                  },
+                  'validateMessage': '选择客户'
+                },
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '客户'
+                  ]
+                },
+                {
+                  'type': 'select',
+                  'id': 'device',
+                  'name': 'device',
+                  'source': 'customer',
+                  'defaultValue': '',
+                  'className': [
+                    'color-red',
+                    {
+                      'sm': 3,
+                      'offset': 0
+                    }
+                  ],
+                  'title': '提示信息',
+                  'style': {
+                    'padding': 0
+                  },
+                  'placeholder': '请填选择设备',
+                  'validate': {
+                    'required': true
+                  },
+                  'validateMessage': '选择设备'
+                },
+                {
+                  'type': 'div',
+                  'className': [
+                    '',
+                    {
+                      'sm': 3
+                    }
+                  ],
+                  'children': [
+                    '客户'
+                  ]
+                },
+                {
+                  'type': 'select',
+                  'id': 'stat',
+                  'name': 'stat',
+                  'defaultValue': '1',
+                  'option': [
+                    [
+                      '0',
+                      '禁用'
+                    ],
+                    [
+                      '1',
+                      '启用'
+                    ]
+                  ],
+                  'className': [
+                    '',
+                    {
+                      'sm': 3,
+                      'offset': 0
+                    }
+                  ],
+                  'title': '提示信息',
+                  'style': {
+                    'padding': 0
+                  },
+                  'placeholder': '请填选择设备',
+                  'validate': {
+                    'required': true
+                  },
+                  'validateMessage': '验证失败'
+                }
+              ]
+            },
+            {
+              'type': 'div',
+              'className': [
+                'div-table-tr'
+              ],
+              'children': [
+                {
+                  'type': 'div',
+                  'className': [
+                    {
+                      'sm': 24,
+                      'offset': 0
+                    }
+                  ],
+                  'children': [
+                    {
+                      'type': 'textarea',
+                      'name': 'brief',
+                      'className': [
+                        'text-left',
+                        {
+                          'sm': 24,
+                          'offset': 0
+                        }
+                      ],
+                      'defaultValue': '',
+                      'placeholder': '请填写简介',
+                      'validate': {
+                        'required': true
+                      },
+                      'validateMessage': '验证失败'
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              'type': 'div',
+              'className': [
+                'div-table-tr'
+              ],
+              'children': [
+                {
+                  'type': 'div',
+                  'className': [
+                    {
+                      'sm': 24,
+                      'offset': 0
+                    }
+                  ],
+                  'children': [
+                    {
+                      'className': [
+                        'color-gray'
+                      ],
+                      'type': 'upload',
+                      'name': 'files',
+                      'action': {
+                        'handler': '/api/upload'
+                      },
+                      'validate': {
+                        'required': true
+                      },
+                      'validateMessage': '验证失败'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      [
+        {
+          'type': 'div',
+          'className': [
+            'text-center',
+            {
+              'sm': 24,
+              'offset': 0
+            }
+          ],
+          'style': {
+            'padding': '5px0'
+          },
+          'children': [
+            {
+              'type': 'button',
+              'action': {
+                'type': 'submit',
+                'handler': '/api/submit'
+              },
+              'children': [
+                '提交'
+              ]
+            }
+          ]
+        }
+      ]
+    ]
+  var conatiner = document.getElementById('jsoneditor')
+  var viewer = document.getElementById('jsonviewer')
+  var options = {}
+  var editor = new JSONEditor(conatiner, options)
+  editor.set(json)
+  var pre = document.createElement('pre')
+  pre.innerText = JSON.stringify(editor.get(), null, 2)
+  viewer.appendChild(pre)
+</script>
+</body>
+</html>
