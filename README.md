@@ -1,11 +1,19 @@
 # README.md
 
+`Render component according config file`
+
 ## How to develop
+
+> install dependency
+
+```shell
+yarn
+```
 
 > run dev server
 
 ```shell
-yarn dev
+yarn start
 ```
 
 > run build
@@ -14,13 +22,16 @@ yarn dev
 yarn build
 ```
 
-## How to view and edit api
+## How to view api
 
 > run api server
 
 ```shell
 cd api
+# python 2
 sudo python -m SimpleHTTPServer 80
+# python 3
+sudo python3 -m http.server 80
 ```
 
 - `index.html` Api index page

@@ -328,11 +328,13 @@ kbd {
 
 <body>
 
-<h1 id="toc_0">售后系统JSON接口</h1>
+<h1 id="toc_0">api.md</h1>
 
-<h2 id="toc_1">格式</h2>
+<h2 id="toc_1">售后系统JSON接口</h2>
 
-<div><pre><code class="language-none">[ // root
+<h3 id="toc_2">格式</h3>
+
+<div><pre><code class="language-javascript">[ // root
     [ // row
         { // cell
             type: string                类型, 原生或自定义
@@ -340,6 +342,9 @@ kbd {
             name: string                名称, 唯一
             readOnly: boolean           只读, true
             defaultValue: string
+            target: string              只用于select,联动加载哪个select &#39;name&#39; 的数据(不能与sync同时使用)
+            source: string              只用于select,被哪个select联动加载&#39;name&#39;,元素自己不需要获取数据
+            sync: string                数据同步指定的&#39;name&#39;(不能语target同时使用)
             option: [                   选项, type: &#39;select&#39;时, option用于显示固定的选择选项
                 [&#39;&#39;, &#39;&#39;] | &#39;&#39;,          Array: 0: id， 1: 显示名称; String: id 与 名称相同
             ],
@@ -371,21 +376,21 @@ kbd {
     ]
 ]</code></pre></div>
 
-<h2 id="toc_2">DEMO</h2>
+<h3 id="toc_3">DEMO</h3>
 
 <p><a href="/demo.html">demo</a></p>
 
-<h1 id="toc_3">售后保存接口</h1>
+<h2 id="toc_4">售后保存接口</h2>
 
-<h2 id="toc_4">请求</h2>
+<h3 id="toc_5">请求</h3>
 
-<div><pre><code class="language-none">{
+<div><pre><code class="language-javascript">{
     data: {}  // 保存的数据: key是售后系统JSON接口的`name`
 }</code></pre></div>
 
-<h2 id="toc_5">返回</h2>
+<h3 id="toc_6">返回</h3>
 
-<div><pre><code class="language-none">{
+<div><pre><code class="language-javascript">{
     stat: &#39;200&#39;, // 200: 成功, 其他失败
     message: {}  // 错误返回的数据: key: 是售后系统JSON接口的`name`, value: 错误信息
 }</code></pre></div>
