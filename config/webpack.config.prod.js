@@ -82,7 +82,12 @@ module.exports = {
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      // alias src path with 'app'
+      // import Component1 from '../../../components/component1'
+      // u can import file like this:
+      // import Component1 from 'app/components/component1'
+      app: path.resolve(__dirname, '../src/')
     }
   },
   

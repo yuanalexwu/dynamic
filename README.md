@@ -26,7 +26,7 @@ yarn start
 yarn build
 ```
 
-## How to view api
+## How to view api and layout
 
 > run api server
 
