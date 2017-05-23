@@ -10,6 +10,10 @@
 yarn
 ```
 
+> run mock server
+
+- [see Mock section](#mock)
+
 > run dev server
 
 ```shell
