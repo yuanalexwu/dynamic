@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 
-class Home extends Component {
+class NoMatch extends Component {
     render() {
         return (
-            <h2>Home</h2>
+            <h2>无匹配</h2>
         )
     }
 }
 
-export default Home
+export default NoMatch 

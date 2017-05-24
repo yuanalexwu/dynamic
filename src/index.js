@@ -1,18 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import {BrowserRouter as Router} from 'react-router-dom'
 import App from './App'
-import './index.scss'
 import { store } from './store'
 import Root from 'app/container/root'
-import Home from 'app/view/home'
-import IssueList from 'app/view/issue_list'
-import CreateIssue from 'app/view/create_issue'
-import './index.scss'
+import './index.css'
 
 const root = (
   <Provider store={store}>
-    <Root />
+    <Router>
+      <Root />
+    </Router>
   </Provider>
 )
 
