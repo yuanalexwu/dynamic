@@ -334,47 +334,207 @@ kbd {
 
 <h3 id="toc_2">格式</h3>
 
-<div><pre><code class="language-javascript">[ // root
-    [ // row
-        { // cell
-            type: string                类型, 原生或自定义
-            id: string
-            name: string                名称, 唯一
-            readOnly: boolean           只读, true
-            defaultValue: string
-            target: string              只用于select,联动加载哪个select &#39;name&#39; 的数据(不能与sync同时使用)
-            source: string              只用于select,被哪个select联动加载&#39;name&#39;,元素自己不需要获取数据
-            sync: string                数据同步指定的&#39;name&#39;(不能语target同时使用)
-            option: [                   选项, type: &#39;select&#39;时, option用于显示固定的选择选项
-                [&#39;&#39;, &#39;&#39;] | &#39;&#39;,          Array: 0: id， 1: 显示名称; String: id 与 名称相同
-            ],
-            action: {                   按钮(上传)专有属性
-                type: &#39;submit&#39;,         按钮操作类型，一般用来提交数据到后台
-                handler: &#39;cancelRequest&#39;提交到后台的路由(需要定义一些通用的后台接口，具体要和后台约定)
-            },
-            className: [
-                &#39;&#39;,                     自定义样式类, &#39;text-center font16 color-green&#39;
-                {xs: 12, offset: 6},    固定样式类, 会生成&#39;dhms-xs-12 dhms-xs-offset-6&#39;
-                {sm: 12, offset: 6},    固定样式类, 会生成&#39;dhms-sm-12 dhms-sm-offset-6&#39;
-                {md: 12, offset: 6},    固定样式类, 会生成&#39;dhms-md-12 dhms-md-offset-6&#39;
-                {lg: 12, offset: 6},    固定样式类, 会生成&#39;dhms-lg-12 dhms-lg-offset-6&#39;
-            ],
-            title: string               标题
-            style: object               inline样式
-            maxLength: int              最大长度
-            placeholder: string
-            validate: object {          校验输入格式 
-                reg: &#39;^$&#39;,              正则字符串不包含前后&#39;/&#39;
-                maxLength: 8,                 指定最大长度
-                required: true           是否必填
+<div><pre><code class="language-javascript">{
+    &quot;border&quot;: true,
+    &quot;className&quot;: [],
+    &quot;style&quot;: {}
+    &quot;table&quot;: [
+        [
+            {
+                &quot;type&quot;: &quot;&quot;,
+                &quot;name&quot;: &quot;&quot;,
+                &quot;readOnly&quot;: false,
+                &quot;defaultValue&quot;: &quot;&quot;,
+                &quot;target&quot;: &quot;&quot;,
+                &quot;source&quot;: &quot;&quot;,
+                &quot;sync&quot;:  &quot;&quot;,
+                &quot;option&quot;: [[&quot;&quot;, &quot;&quot;]],
+                &quot;action&quot;: {
+                    &quot;type&quot;: &quot;submit&quot;,
+                    &quot;handler&quot;: &quot;/api/submitRequest&quot;
+                },
+                &quot;className&quot;: [
+                    &quot;text-right&quot;,
+                    {&quot;xs&quot;: 12, &quot;offset&quot;: 6},
+                    {&quot;sm&quot;: 12, &quot;offset&quot;: 6},
+                    {&quot;md&quot;: 12, &quot;offset&quot;: 6},
+                    {&quot;lg&quot;: 12, &quot;offset&quot;: 6},
+                ],
+                &quot;title&quot;:  &quot;&quot;,
+                &quot;style&quot;:  {},
+                &quot;maxLength&quot;: 8,
+                &quot;placeholder&quot;: &quot;&quot;,
+                &quot;validate&quot;: {
+                    &quot;reg&quot;: &quot;^$&quot;,
+                    &quot;maxLength&quot;: 8,
+                    &quot;required&quot;: true
+                },
+                &quot;validateMessage&quot;: &quot;&quot;,
+                &quot;children&quot;: []
             }
-            validateMessage: string     校验失败提示
-            children: array             子节点(optional)
-        },
-        {
-        }
+        ]
     ]
-]</code></pre></div>
+}</code></pre></div>
+
+<hr>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: center">字段名</th>
+<th style="text-align: center">类型</th>
+<th style="text-align: center">说明</th>
+<th style="text-align: center">例子</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: center">border</td>
+<td style="text-align: center">boolean</td>
+<td style="text-align: center">是否显示表格边框</td>
+<td style="text-align: center">true</td>
+</tr>
+<tr>
+<td style="text-align: center">table</td>
+<td style="text-align: center">array</td>
+<td style="text-align: center">二维数组表格, table&gt;包含tr数组&gt;包含td.td中是各种元素</td>
+<td style="text-align: center">[[td, td], [td, td]]</td>
+</tr>
+<tr>
+<td style="text-align: center">type</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">元素类型</td>
+<td style="text-align: center">select, input, label, div, textarea, hidden</td>
+</tr>
+<tr>
+<td style="text-align: center">name</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">需要提交的元素必须设置<strong>name</strong>，用来绑定事件，验证输入的唯一标示，整个json配置文件中不能重复</td>
+<td style="text-align: center">&quot;customer&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">readOnly</td>
+<td style="text-align: center">boolean</td>
+<td style="text-align: center">元素是否是只读</td>
+<td style="text-align: center">true</td>
+</tr>
+<tr>
+<td style="text-align: center">defaultValue</td>
+<td style="text-align: center">any</td>
+<td style="text-align: center">元素默认值</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">target</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">select元素专有属性, 联动的目标<strong>name</strong></td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">source</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">select元素专有属性, <strong>target</strong>元素的<strong>name</strong>, 表示此元素的数据受带有<strong>target</strong>元素的影响</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">sync</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">数据同步指定的<strong>name</strong>, 不能与<strong>target</strong>同时使用</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">option</td>
+<td style="text-align: center">array, string</td>
+<td style="text-align: center">select元素专有选项, 用于显示固定的选择选项. array时，第一个元素表示select option的value, 第二个元素表示option的显示内容; string时, option的value以及显示内容相同</td>
+<td style="text-align: center">[[&quot;100001&quot;, &quot;用户1&quot;], [&quot;100002&quot;, &quot;用户2&quot;], ...]</td>
+</tr>
+<tr>
+<td style="text-align: center">action</td>
+<td style="text-align: center">object</td>
+<td style="text-align: center">按钮触发事件的选项</td>
+<td style="text-align: center">{&quot;type&quot;: &quot;submit&quot;, &quot;handler&quot;: &quot;/api/submitIssue&quot;}</td>
+</tr>
+<tr>
+<td style="text-align: center">action.type</td>
+<td style="text-align: center">string 取值范围: &quot;submit&quot;</td>
+<td style="text-align: center">按钮出发事件的类型</td>
+<td style="text-align: center">&quot;submit&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">action.handler</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">指定与后台交互请求api</td>
+<td style="text-align: center">&quot;/api/submitIssue&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">className</td>
+<td style="text-align: center">array</td>
+<td style="text-align: center">元素class样式, 第一个元素是自定义的样式，其他是栅格样式</td>
+<td style="text-align: center">[&quot;text-center&quot;, {&quot;xs&quot;: 12, &quot;offset&quot;: 6}, ...] 参考<em>README.md</em>中(How to view api and layout) <em>layout.html</em></td>
+</tr>
+<tr>
+<td style="text-align: center">style</td>
+<td style="text-align: center">object</td>
+<td style="text-align: center">元素自定义的内敛样式，使用React中的驼峰命名规范</td>
+<td style="text-align: center">{&quot;zIndex&quot;: 9999}</td>
+</tr>
+<tr>
+<td style="text-align: center">title</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">元素鼠标移动上去显示的提示信息</td>
+<td style="text-align: center"></td>
+</tr>
+<tr>
+<td style="text-align: center">maxLength</td>
+<td style="text-align: center">number</td>
+<td style="text-align: center">指定用户输入元素的最大长度</td>
+<td style="text-align: center">8</td>
+</tr>
+<tr>
+<td style="text-align: center">placeholder</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">用户输入的提示信息</td>
+<td style="text-align: center">&quot;请输入电话&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">validate</td>
+<td style="text-align: center">object</td>
+<td style="text-align: center">验证<strong>name</strong>元素的用户输入是否正确</td>
+<td style="text-align: center">{&quot;reg&quot;: &quot;^d?$&quot;, &quot;maxLength&quot;: 8, &quot;required&quot;: true}</td>
+</tr>
+<tr>
+<td style="text-align: center">validate.reg</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">正则验证</td>
+<td style="text-align: center">&quot;^d?$&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">validate.maxLength</td>
+<td style="text-align: center">number</td>
+<td style="text-align: center">长度验证</td>
+<td style="text-align: center">8</td>
+</tr>
+<tr>
+<td style="text-align: center">validate.required</td>
+<td style="text-align: center">boolean</td>
+<td style="text-align: center">是否必须输入</td>
+<td style="text-align: center">true</td>
+</tr>
+<tr>
+<td style="text-align: center">validateMessage</td>
+<td style="text-align: center">string</td>
+<td style="text-align: center">用户输入错误时的通用提示信息</td>
+<td style="text-align: center">&quot;电话号码输入有误, 请重新输入&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">children</td>
+<td style="text-align: center">array</td>
+<td style="text-align: center">td元素特有属性包含正常的<strong>type</strong>类型</td>
+<td style="text-align: center">[{&quot;type&quot;: &quot;label&quot;, &quot;defaultValue&quot;: &quot;xx&quot;}]</td>
+</tr>
+</tbody>
+</table>
 
 <h3 id="toc_3">DEMO</h3>
 

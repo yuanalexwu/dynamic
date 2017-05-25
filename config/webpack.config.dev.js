@@ -24,8 +24,8 @@ var env = getClientEnvironment(publicUrl)
 var copyList = [
   {'from': path.join(path.resolve(__dirname), '../node_modules', 'jquery/dist/jquery.min.js'), to: 'static/js/'},
   {'from': path.join(path.resolve(__dirname), '../node_modules', 'jquery/dist/jquery.min.map'), to: 'static/js/'},
-  {'from': path.join(path.resolve(__dirname), '../public', 'index.fbf5fc2d.min.css'), to: 'static/css/'},
-  {'from': path.join(path.resolve(__dirname), '../public', 'index.fbf5fc2d.min.css.map'), to: 'static/css/'}
+  {'from': path.join(path.resolve(__dirname), '../public', 'index.d8b7e4b8.min.css'), to: 'static/css/'},
+  {'from': path.join(path.resolve(__dirname), '../public', 'index.d8b7e4b8.min.css.map'), to: 'static/css/'}
 ]
 
 // This is the development configuration.

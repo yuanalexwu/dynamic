@@ -1,0 +1,288 @@
+[
+  [
+    {
+      "type": "div",
+      "className": [
+        "div-table no-div-table"
+      ],
+      "children": [
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "label",
+              "className": [
+                "text-right",
+                {
+                  "sm": 3
+                }
+              ],
+              "defaultValue": "工单类型"
+            },
+            {
+              "type": "select",
+              "name": "issue_type",
+              "defaultValue": "",
+              "className": [
+                "",
+                {
+                  "sm": 6,
+                  "offset": 0
+                }
+              ],
+              "title": "工单类型",
+              "style": {
+                "padding": 0
+              },
+              "placeholder": "请选择工单类型",
+              "validate": {
+                "required": true
+              },
+              "validateMessage": "请选择工单"
+            }
+          ]
+        },
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "div",
+              "className": [
+                "text-right",
+                {
+                  "sm": 3
+                }
+              ],
+              "children": [
+                "客户"
+              ]
+            },
+            {
+              "type": "select",
+              "id": "customer",
+              "name": "customer",
+              "target": "device",
+              "defaultValue": "",
+              "className": [
+                "color-red",
+                {
+                  "sm": 6,
+                  "offset": 0
+                }
+              ],
+              "title": "提示信息",
+              "style": {
+                "padding": 0
+              },
+              "placeholder": "请填选择客户",
+              "validate": {
+                "required": true
+              },
+              "validateMessage": "选择客户"
+            }
+          ]
+        },
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "div",
+              "className": [
+                "text-right",
+                {
+                  "sm": 3
+                }
+              ],
+              "children": [
+                "设备"
+              ]
+            },
+            {
+              "type": "select",
+              "id": "device",
+              "name": "device",
+              "source": "customer",
+              "defaultValue": "",
+              "className": [
+                "color-red",
+                {
+                  "sm": 6,
+                  "offset": 0
+                }
+              ],
+              "title": "提示信息",
+              "style": {
+                "padding": 0
+              },
+              "placeholder": "请填选择设备",
+              "validate": {
+                "required": true
+              },
+              "validateMessage": "选择设备"
+            }
+          ]
+        },
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "div",
+              "className": [
+                "text-right",
+                {
+                  "sm": 3
+                }
+              ],
+              "children": [
+                "联系人"
+              ]
+            },
+            {
+              "type": "select",
+              "name": "contact",
+              "sync": "tel",
+              "defaultValue": "",
+              "className": [
+                "",
+                {
+                  "sm": 6,
+                  "offset": 0
+                }
+              ],
+              "title": "联系人",
+              "style": {
+                "padding": 0
+              },
+              "placeholder": "请选择联系人",
+              "validate": {
+                "required": true
+              },
+              "validateMessage": "请选择联系人"
+            }
+          ]
+        },
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "div",
+              "className": [
+                "text-right",
+                {
+                  "sm": 3
+                }
+              ],
+              "children": [
+                "电话"
+              ]
+            },
+            {
+              "type": "input",
+              "name": "tel",
+              "defaultValue": "",
+              "className": [
+                "",
+                {
+                  "sm": 6,
+                  "offset": 0
+                }
+              ],
+              "title": "电话",
+              "style": {},
+              "placeholder": "请填写电话",
+              "validate": {
+                "reg": "^1[3|5|7|8][0-9]{9}$|^\\d{3,4}-\\d{8}$|^\\d{8}$",
+                "required": true
+              },
+              "validateMessage": "验证失败"
+            }
+          ]
+        },
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "div",
+              "className": [
+                {
+                  "sm": 24,
+                  "offset": 0
+                }
+              ],
+              "children": [
+                {
+                  "type": "textarea",
+                  "name": "desc",
+                  "className": [
+                    "text-left",
+                    {
+                      "sm": 24,
+                      "offset": 0
+                    }
+                  ],
+                  "defaultValue": "",
+                  "placeholder": "请填写问题描述",
+                  "validate": {
+                    "required": true
+                  },
+                  "validateMessage": "验证失败"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "div",
+          "className": [
+            "div-table-tr"
+          ],
+          "children": [
+            {
+              "type": "div",
+              "className": [
+                "text-center",
+                {
+                  "sm": 24,
+                  "offset": 0
+                }
+              ],
+              "style": {
+                "padding": "5px 0"
+              },
+              "children": [
+                {
+                  "type": "button",
+                  "action": {
+                    "type": "submit",
+                    "handler": "/api/submit"
+                  },
+                  "children": [
+                    "提交"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+]

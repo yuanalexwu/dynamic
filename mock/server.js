@@ -13,7 +13,11 @@ app.use(morgan('combined'))
  * Get config file
  */
 app.get(`${API_PREFIX}/config/:configId`, function (req, res) {
-  res.send(fs.readFileSync('step1.json', 'utf-8'))
+  const {configId = ''} = req.params
+  if (configId === '1001') {
+    // create issue
+    res.send(fs.readFileSync('create_issue_v2.json', 'utf-8'))
+  }
 })
 
 /**
@@ -44,13 +48,13 @@ app.get(`${API_PREFIX}/customer`, function (req, res) {
  * Device select
  */
 const DEVICE_DATA = [
-    {id: '1001', data: [['10001', '设备1']]},
-    {id: '1002', data: [['10002', '设备2']]},
-    {id: '1003', data: [['10003', '设备3']]},
+  {id: '1001', data: [['10001', '设备1']]},
+  {id: '1002', data: [['10002', '设备2']]},
+  {id: '1003', data: [['10003', '设备3']]},
 ]
 app.get(`${API_PREFIX}/device/:customerId`, function (req, res) {
   const customerId = req.params.customerId
-  data = DEVICE_DATA.filter(data => data.id === customerId)
+  let data = DEVICE_DATA.filter(data => data.id === customerId)
   if (data.length > 0) {
     data = data[0]['data']
   }
