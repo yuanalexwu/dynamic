@@ -1,18 +1,19 @@
-import React, { Component, createElement } from 'react'
-import { bindActionCreators } from 'redux'
+import React, {Component, createElement} from 'react'
+import {bindActionCreators} from 'redux'
 import * as customerAction from '../../action/customer'
 import * as deviceAction from '../../action/device'
 import * as commonAction from '../../action/common'
 import * as issueAction from '../../action/issue'
 import * as contactActionn from '../../action/contact'
 import moment from 'moment'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Select from '../select'
 import Input from '../input'
 import DatePicker from '../datepicker'
-import { Button } from 'antd'
+import {Button} from 'antd'
 import TextArea from '../textarea'
 import Upload from '../upload'
+import Label from '../label'
 
 /**
  * Convert seconds to microseconds
@@ -96,11 +97,12 @@ class Wrapper extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {
-      jsonConfig, customerSelect, deviceSelect,
+      jsonConfig = {}, customerSelect, deviceSelect,
       issueTypeSelect, contactSelect
     } = nextProps
+    const {table = []} = jsonConfig
     // 1. get raw configuration from server
-    if (jsonConfig.length > 0 && !this.isConfigRead) {
+    if (table.length > 0 && !this.isConfigRead) {
       this.initConfig(jsonConfig)
     }
 
@@ -143,7 +145,7 @@ class Wrapper extends Component {
    * the valid for state
    * the requests that will fetch from server
    *
-   * @param rawConfig Raw configuration from server
+   * @param {object}rawConfig Raw configuration from server
    * @returns {object}
    *  {object}state,
    *  {object}error,
@@ -151,7 +153,7 @@ class Wrapper extends Component {
    *  {array}requests,
    *  {object}config
    */
-  prepareConfig = (rawConfig = []) => {
+  prepareConfig = (rawConfig = {}) => {
     /**
      * hold the state for element which will be maintained
      */
@@ -169,32 +171,53 @@ class Wrapper extends Component {
      */
     const requests = []
 
-    if (!(rawConfig instanceof Array)) {
+    const {border = true, className = [], style = {}, table = []} = rawConfig
+    if (!(table instanceof Array) || table.length === 0) {
+      // no data
       return []
     }
-    // root config object
-    const config = {
-      type: 'div',
-      children: []
-    }
-    for (const [rowIndex, row] of rawConfig.entries()) {
-      // iterate row
-      const rowOption = {
-        type: 'div',
-        key: rowIndex,
-        className: [
-          'clearfix'
-        ],
-        children: []
-      }
+    const wrapperTableConfig = this.getWrapperTableConfig(border, className, style)
+    for (const [rowIndex, row] of table.entries()) {
+      const wrapperRowConfig = this.getWrapperRowConfig(rowIndex)
       for (const [cellIndex, cell] of row.entries()) {
         cell.key = cellIndex
         this.prepareInitData([cell], state, error, valid, requests)
-        rowOption.children.push(cell)
+        wrapperRowConfig.children.push(cell)
       }
-      config.children.push(rowOption)
+      wrapperTableConfig.children.push(wrapperRowConfig)
     }
-    return {state, error, valid, requests, config}
+    return {state, error, valid, requests, config: wrapperTableConfig}
+  }
+
+  getWrapperTableConfig = (border, className = [], style) => {
+    let tableClass = 'div-table clearfix'
+    if (border) {
+      tableClass = `${tableClass} no-div-table`
+    }
+    if (className.length > 0) {
+      // The first element of `className` is manual className
+      // see the defination in `api/api.md`
+      const manualClass = className[0]
+      if (manualClass) {
+        tableClass = `${tableClass} ${manualClass}`
+      }
+    }
+    className[0] = tableClass
+    return {
+      type: 'div',
+      className,
+      style,
+      children: []
+    }
+  }
+
+  getWrapperRowConfig = (rowIndex) => {
+    return {
+      type: 'div',
+      key: rowIndex,
+      className: ['div-table-tr'],
+      children: []
+    }
   }
 
   /**
@@ -408,7 +431,7 @@ class Wrapper extends Component {
     }
     if (type === UPLOAD_ELEMENT_TYPE) {
       const {action} = option
-      const { handler } = action
+      const {handler} = action
       props.action = handler
       props.fileList = this.state[name]
     }
@@ -417,7 +440,7 @@ class Wrapper extends Component {
 
   /**
    * Generate className for component
-   * @param {array}classNameList Contains default class name as it's first element
+   * @param {Array} classNameList Contains default class name as it's first element
    * and other grid layout object.
    * [
    *  'default_class_name',
@@ -452,22 +475,21 @@ class Wrapper extends Component {
         }
       }
     }
-    const className = [
+    return [
       ...classNameXs,
       ...classNameSm,
       ...classNameMd,
       ...classNameLg,
       defaultClass
     ].filter(c => c).join(' ')
-    return className
   }
 
   /**
    * Parse class for each size(xs|sm|md|lg)
    * @param {string}type xs|sm|md|lg
-   * @param {{number}width, {number}offset} sizeObj
+   * @param {object} sizeObj {width: 6, number: 6}
    *
-   * @returns {array} List of className
+   * @returns {Array} List of className
    */
   getClassName = (type, sizeObj) => {
     let {width, offset} = sizeObj
@@ -681,8 +703,7 @@ class Wrapper extends Component {
   doCreate = (type, props, children) => {
     switch (type) {
       case LABEL_ELEMENT_TYPE: {
-        const {defaultValue, ...restProps} = props
-        return createElement(type, restProps, defaultValue)
+        return createElement(Label, props)
       }
       case INPUT_ELEMENT_TYPE: {
         const {className, ...newProps} = props

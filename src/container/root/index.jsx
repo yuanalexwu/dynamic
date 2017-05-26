@@ -91,7 +91,7 @@ class Root extends Component {
           trigger={null}
           collapsible
           collapsed={collapsed}
-                >
+        >
           <Link to={parsePathWithAppPrefix('/')}>
             <div className='root-logo'>DHMS</div>
           </Link>
@@ -100,15 +100,15 @@ class Root extends Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+          <Header style={{background: '#fff', padding: 0}}>
             <Icon
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggleCollapse}
               className='root-side-trigger'
-                        />
+            />
           </Header>
-          <Content style={{ margin: '24px 16px 0' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight }}>
+          <Content style={{margin: '24px 16px 0'}}>
+            <div style={{padding: 24, background: '#fff', minHeight}}>
               <Switch>
                 <Route exact path={parsePathWithAppPrefix('/')} component={Home} />
                 <Route path={parsePathWithAppPrefix('/issue_list')} component={IssueList} />
@@ -117,7 +117,7 @@ class Root extends Component {
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
+          <Footer style={{textAlign: 'center'}}>
             DHMS ©2017 Use Antd
           </Footer>
         </Layout>

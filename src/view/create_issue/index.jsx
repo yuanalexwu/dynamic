@@ -21,7 +21,7 @@ class CreateIssue extends Component {
 }
 
 function mapStateToProps (state) {
-  const {common = []} = state
+  const {common = {}} = state
   return {
     jsonConfig: common
   }

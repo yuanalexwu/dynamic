@@ -87,7 +87,7 @@
             "sm": 3
           }
         ],
-        "children": "设备"
+        "defaultValue": "设备"
       },
       {
         "type": "select",
@@ -122,7 +122,7 @@
             "sm": 3
           }
         ],
-        "children": "联系人"
+        "defaultValue": "联系人"
       },
       {
         "type": "select",
@@ -156,7 +156,7 @@
             "sm": 3
           }
         ],
-        "children": "电话"
+        "defaultValue": "电话"
       },
       {
         "type": "input",
