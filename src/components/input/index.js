@@ -5,6 +5,7 @@ class Input extends Component {
   render () {
     let {
       validateMessage = '格式不正确',
+      validatePosition = 'right',
       defaultValue = '',
       value = '',
       placeholder,
@@ -35,9 +36,14 @@ class Input extends Component {
       extraProps.style = style
     }
 
+    let errorClass = 'has-error-word'
+    if (validatePosition) {
+      errorClass = `${errorClass} ${validatePosition}`
+    }
+
     return (
       <div className={wrapperClassName}>
-        <div className='has-error-word'>
+        <div className={errorClass}>
           {validateMessage}
           <i className='arrow'><i /></i>
         </div>

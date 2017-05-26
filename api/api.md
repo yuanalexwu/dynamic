@@ -8,7 +8,7 @@
 {
     "border": true,
     "className": [],
-    "style": {}
+    "style": {},
     "table": [
         [
             {
@@ -41,6 +41,7 @@
                     "required": true
                 },
                 "validateMessage": "",
+                "validatePosition": "right",
                 "children": []
             }
         ]
@@ -75,6 +76,7 @@
 |validate.maxLength|number|长度验证|8|
 |validate.required|boolean|是否必须输入|true|
 |validateMessage|string|用户输入错误时的通用提示信息|"电话号码输入有误, 请重新输入"|
+|validatePosition|string, 可选值 "top", "bottom", "left", "right"|错误信息显示在相对于元素的位置|"right"|
 |children|array|td元素特有属性包含正常的**type**类型|[{"type": "label", "defaultValue": "xx"}]|
 
 

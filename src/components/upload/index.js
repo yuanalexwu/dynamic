@@ -5,6 +5,7 @@ class Upload extends Component {
   render () {
     let {
       validateMessage = '验证失败',
+      validatePosition = 'right',
       hasError = false,
       wrapperClassName = '',
       className = '',
@@ -22,9 +23,14 @@ class Upload extends Component {
       type: 'primary'
     }
 
+    let errorClass = 'has-error-word'
+    if (validatePosition) {
+      errorClass = `${errorClass} ${validatePosition}`
+    }
+
     return (
       <div className={wrapperClassName}>
-        <div className='has-error-word'>
+        <div className={errorClass}>
           {validateMessage}
           <i className='arrow'><i /></i>
         </div>

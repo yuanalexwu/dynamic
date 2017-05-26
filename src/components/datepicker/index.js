@@ -5,6 +5,7 @@ class DatePicker extends Component {
   render () {
     let {
       validateMessage = '',
+      validatePosition = 'right',
       defaultValue = '',
       hasError = false,
       className = '',
@@ -33,9 +34,14 @@ class DatePicker extends Component {
       extraProps.style = style
     }
 
+    let errorClass = 'has-error-word'
+    if (validatePosition) {
+      errorClass = `${errorClass} ${validatePosition}`
+    }
+
     return (
       <div className={className}>
-        <div className='has-error-word'>
+        <div className={errorClass}>
           {validateMessage}
           <i className='arrow'><i /></i>
         </div>

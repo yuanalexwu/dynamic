@@ -5,6 +5,7 @@ import {getUserInfo, getMenu, parsePathWithAppPrefix} from 'app/util'
 import Home from 'app/view/home'
 import IssueList from 'app/view/issue_list'
 import CreateIssue from 'app/view/create_issue'
+import EditIssue from 'app/view/edit_issue'
 import NoMatch from 'app/view/no_match'
 import './index.css'
 const {Header, Content, Footer, Sider} = Layout
@@ -111,8 +112,9 @@ class Root extends Component {
             <div style={{padding: 24, background: '#fff', minHeight}}>
               <Switch>
                 <Route exact path={parsePathWithAppPrefix('/')} component={Home} />
-                <Route path={parsePathWithAppPrefix('/issue_list')} component={IssueList} />
+                <Route exact path={parsePathWithAppPrefix('/issue_list')} component={IssueList} />
                 <Route exact path={parsePathWithAppPrefix('/create_issue')} component={CreateIssue} />
+                <Route exact path={parsePathWithAppPrefix('/edit_issue/:issue_id')} component={EditIssue} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

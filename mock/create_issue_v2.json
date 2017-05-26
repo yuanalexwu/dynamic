@@ -1,6 +1,8 @@
 {
   "border": false,
-  "className": ["font14"],
+  "className": [
+    "font14"
+  ],
   "style": {},
   "table": [
     [
@@ -8,13 +10,34 @@
         "type": "hidden",
         "name": "id",
         "defaultValue": "1001"
+      },
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "工单ID"
+      },
+      {
+        "type": "label",
+        "defaultValue": "100001",
+        "className": [
+          "",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ]
       }
     ],
     [
       {
         "type": "label",
         "className": [
-          "text-right",
+          "text-right font16 color-super-gray",
           {
             "sm": 3
           }
@@ -47,7 +70,7 @@
       {
         "type": "label",
         "className": [
-          "text-right",
+          "text-right font16 color-super-gray",
           {
             "sm": 3
           }
@@ -82,7 +105,7 @@
       {
         "type": "label",
         "className": [
-          "text-right",
+          "text-right font16 color-super-gray",
           {
             "sm": 3
           }
@@ -117,7 +140,7 @@
       {
         "type": "label",
         "className": [
-          "text-right",
+          "text-right font16 color-super-gray",
           {
             "sm": 3
           }
@@ -151,7 +174,7 @@
       {
         "type": "label",
         "className": [
-          "text-right",
+          "text-right font16 color-super-gray",
           {
             "sm": 3
           }
@@ -176,24 +199,35 @@
           "reg": "^1[3|5|7|8][0-9]{9}$|^\\d{3,4}-\\d{8}$|^\\d{8}$",
           "required": true
         },
-        "validateMessage": "验证失败"
+        "validateMessage": "验证失败",
+        "validatePosition": "right"
       }
     ],
     [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "描述"
+      },
       {
         "type": "textarea",
         "name": "desc",
         "className": [
           "text-left",
           {
-            "sm": 24,
+            "sm": 6,
             "offset": 0
           }
         ],
         "defaultValue": "",
         "placeholder": "请填写问题描述",
         "validate": {
-          "required": true
+          "required": false
         },
         "validateMessage": "验证失败"
       }
@@ -202,9 +236,9 @@
       {
         "type": "div",
         "className": [
-          "text-center",
+          "clearfix text-center",
           {
-            "sm": 24,
+            "sm": 9,
             "offset": 0
           }
         ],
@@ -214,13 +248,17 @@
         "children": [
           {
             "type": "button",
+            "className": [
+              "",
+              {
+                "sm": 10
+              }
+            ],
             "action": {
               "type": "submit",
               "handler": "/api/submit"
             },
-            "children": [
-              "提交"
-            ]
+            "defaultValue": "提交"
           }
         ]
       }

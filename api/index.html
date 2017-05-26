@@ -337,7 +337,7 @@ kbd {
 <div><pre><code class="language-javascript">{
     &quot;border&quot;: true,
     &quot;className&quot;: [],
-    &quot;style&quot;: {}
+    &quot;style&quot;: {},
     &quot;table&quot;: [
         [
             {
@@ -370,6 +370,7 @@ kbd {
                     &quot;required&quot;: true
                 },
                 &quot;validateMessage&quot;: &quot;&quot;,
+                &quot;validatePosition&quot;: &quot;right&quot;,
                 &quot;children&quot;: []
             }
         ]
@@ -526,6 +527,12 @@ kbd {
 <td style="text-align: center">string</td>
 <td style="text-align: center">用户输入错误时的通用提示信息</td>
 <td style="text-align: center">&quot;电话号码输入有误, 请重新输入&quot;</td>
+</tr>
+<tr>
+<td style="text-align: center">validatePosition</td>
+<td style="text-align: center">string, 可选值 &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;, &quot;right&quot;</td>
+<td style="text-align: center">错误信息显示在相对于元素的位置</td>
+<td style="text-align: center">&quot;right&quot;</td>
 </tr>
 <tr>
 <td style="text-align: center">children</td>

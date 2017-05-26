@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { Select as AntSelect } from 'antd'
 const Option = AntSelect.Option
 
@@ -8,7 +7,7 @@ class Select extends Component {
     const {
       value, list, placeholder,
       onChange, className, style = {},
-      validateMessage, hasError
+      validateMessage, validatePosition = 'right', hasError
     } = this.props
     const innerStyle = {width: '100%', ...style}
     const options = list.map((option, idx) => {
@@ -30,16 +29,21 @@ class Select extends Component {
     if (hasError) {
       wrapperClassName = `${wrapperClassName} has-error`
     }
+
+    let errorClass = 'has-error-word'
+    if (validatePosition) {
+      errorClass = `${errorClass} ${validatePosition}`
+    }
+
     return (
       <div className={wrapperClassName}>
-        <div className='has-error-word'>
+        <div className={errorClass}>
           {validateMessage}
           <i className='arrow'><i /></i>
         </div>
         <AntSelect
           showSearch
-          allowClear
-          size='small'
+          size='large'
           style={innerStyle}
           placeholder={placeholder}
           value={value}
@@ -55,15 +59,6 @@ class Select extends Component {
   }
 }
 
-// Select.propTypes = {
-//   value: PropTypes.oneOf([
-//     PropTypes.string,
-//     PropTypes.number
-//   ]).isRequired,
-//   list: PropTypes.array.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   placeholder: PropTypes.string
-// }
 Select.defaultProps = {
   value: '',
   list: [],

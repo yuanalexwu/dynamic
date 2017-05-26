@@ -103,6 +103,7 @@ class Wrapper extends Component {
     const {table = []} = jsonConfig
     // 1. get raw configuration from server
     if (table.length > 0 && !this.isConfigRead) {
+      console.log('componentWillReceiveProps() ', jsonConfig)
       this.initConfig(jsonConfig)
     }
 
@@ -118,7 +119,6 @@ class Wrapper extends Component {
   initConfig = (jsonConfig) => {
     // 2. parse raw configuration
     const {state, error, valid, requests = [], config} = this.prepareConfig(jsonConfig)
-    console.log('initConfig() ', state)
 
     /**
      * Fetch all the data that will be used in the further
@@ -191,7 +191,7 @@ class Wrapper extends Component {
 
   getWrapperTableConfig = (border, className = [], style) => {
     let tableClass = 'div-table clearfix'
-    if (border) {
+    if (!border) {
       tableClass = `${tableClass} no-div-table`
     }
     if (className.length > 0) {
@@ -355,7 +355,7 @@ class Wrapper extends Component {
       type, key, name = '',
       defaultValue = '', title, maxLength,
       placeholder, style = {}, readOnly,
-      validateMessage, className: classNameList = []
+      validateMessage, className: classNameList = [], validatePosition
     } = option
     /**
      * Hold all the props of component
@@ -412,6 +412,9 @@ class Wrapper extends Component {
     if (validateMessage) {
       props.validateMessage = validateMessage
     }
+    if (validatePosition) {
+      props.validatePosition = validatePosition
+    }
 
     /**
      * deal with some particular types' props
@@ -421,8 +424,7 @@ class Wrapper extends Component {
     }
     if (type === BUTTON_ELEMENT_TYPE) {
       // default button type
-      props.ghost = true
-      props.size = 'small'
+      props.size = 'large'
       props.type = 'primary'
       /**
        * Bind event for button, cause it doesn't have `name`
@@ -728,7 +730,8 @@ class Wrapper extends Component {
         return createElement(type, props, children)
       }
       case BUTTON_ELEMENT_TYPE: {
-        return createElement(Button, props, children)
+        const { defaultValue, ...restProps } = props
+        return createElement(Button, restProps, defaultValue)
       }
       case TEXTAREA_ELEMENT_TYPE: {
         return createElement(TextArea, props, children)

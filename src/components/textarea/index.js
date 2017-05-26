@@ -4,10 +4,11 @@ class TextArea extends Component {
   render () {
     let {
       validateMessage = '格式不正确',
+      validatePosition = 'right',
       defaultValue = '',
       placeholder,
       hasError = false,
-      wrapperClassName = '',
+      className = '',
       title,
       maxLength,
       readOnly = false,
@@ -16,7 +17,7 @@ class TextArea extends Component {
     } = this.props
     // wrapper class name
     if (hasError) {
-      wrapperClassName = `${wrapperClassName} has-error`
+      className = `${className} has-error`
     }
     // extra props
     const extraProps = {}
@@ -33,9 +34,14 @@ class TextArea extends Component {
       extraProps.style = style
     }
 
+    let errorClass = 'has-error-word'
+    if (validatePosition) {
+      errorClass = `${errorClass} ${validatePosition}`
+    }
+
     return (
-      <div className={wrapperClassName}>
-        <div className='has-error-word'>
+      <div className={className}>
+        <div className={errorClass}>
           {validateMessage}
           <i className='arrow'><i /></i>
         </div>

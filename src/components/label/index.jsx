@@ -4,14 +4,14 @@ class Label extends Component {
   render () {
     let {
       defaultValue = '',
-      wrapperClassName = '',
+      className = '',
       title = '',
       style = {},
     } = this.props
 
     return (
       <div
-        className={wrapperClassName}
+        className={className}
         title={title}
         style={style}
       >
