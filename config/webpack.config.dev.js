@@ -24,8 +24,8 @@ var env = getClientEnvironment(publicUrl)
 var copyList = [
   {'from': path.join(path.resolve(__dirname), '../node_modules', 'jquery/dist/jquery.min.js'), to: 'static/js/'},
   {'from': path.join(path.resolve(__dirname), '../node_modules', 'jquery/dist/jquery.min.map'), to: 'static/js/'},
-  {'from': path.join(path.resolve(__dirname), '../public', 'v2.32afd604.min.css'), to: 'static/css/'},
-  {'from': path.join(path.resolve(__dirname), '../public', 'v2.32afd604.min.css.map'), to: 'static/css/'},
+  {'from': path.join(path.resolve(__dirname), '../public', 'v2.fc2dd5c3.min.css'), to: 'static/css/'},
+  {'from': path.join(path.resolve(__dirname), '../public', 'v2.fc2dd5c3.min.css.map'), to: 'static/css/'},
   {'from': path.join(path.resolve(__dirname), '../public', 'font/service.eot'), to: 'static/font/'},
   {'from': path.join(path.resolve(__dirname), '../public', 'font/service.svg'), to: 'static/font/'},
   {'from': path.join(path.resolve(__dirname), '../public', 'font/service.ttf'), to: 'static/font/'},
@@ -94,7 +94,8 @@ module.exports = {
       // import Component1 from '../../../components/component1'
       // u can import file like this:
       // import Component1 from 'app/components/component1'
-      app: path.resolve(__dirname, '../src/')
+      app: path.resolve(__dirname, '../src/'),
+      public: path.resolve(__dirname, '../public/')
     }
   },
 
