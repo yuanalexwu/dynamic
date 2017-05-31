@@ -1,5 +1,6 @@
 const express = require('express')
 const fs = require('fs')
+const path = require('path')
 const faker = require('faker')
 const morgan = require('morgan')
 const app = express()
@@ -13,11 +14,8 @@ app.use(morgan('combined'))
  * Get config file
  */
 app.get(`${API_PREFIX}/config/:configId`, function (req, res) {
-  const {configId = ''} = req.params
-  if (configId === '1001') {
-    // create issue
-    res.send(fs.readFileSync('create_issue_v2.json', 'utf-8'))
-  }
+  const {configId = ''} = req.params // eslint-disable-line
+  res.send(fs.readFileSync('edit_issue.json', 'utf-8'))
 })
 
 /**
@@ -60,6 +58,54 @@ app.get(`${API_PREFIX}/device/:customerId`, function (req, res) {
   }
   res.json(data)
 })
+
+/**
+ * home
+ */
+app.get(`${API_PREFIX}/home/info`, function (req, res) {
+  res.send(fs.readFileSync('home.json', 'utf-8'))
+})
+
+/**
+ * issueList
+ */
+app.get(`${API_PREFIX}/issue_list`, function (req, res) {
+  let {stat = 'all', size = 10, page = 1} = req.query
+  size = 1 * size
+  page = 1 * page
+  size = isNaN(size) ? 10 : size
+  page = isNaN(page) ? 10 : page
+  const handlingList = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'issue_list/handling.json'), 'utf-8'))
+  const unhandlingList = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'issue_list/unhandling.json'), 'utf-8'))
+  const finishList = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'issue_list/finish.json'), 'utf-8'))
+  let total = 0
+  let list = []
+  if (stat === 'handling') {
+    total = handlingList.length
+    list = parseList(handlingList, page, size)
+  } else if (stat === 'unhandling') {
+    total = unhandlingList.length
+    list = parseList(unhandlingList, page, size)
+  } else if (stat === 'finish') {
+    total = finishList.length
+    list = parseList(finishList, page, size)
+  } else {
+    list = list.concat(handlingList, unhandlingList, finishList)
+    total = list.length
+    list = parseList(list, page, size)
+  }
+  const issueListInfo = {
+    total,
+    page,
+    size,
+    list
+  }
+  res.send(issueListInfo)
+})
+
+function parseList (list, page, size) {
+  return list.splice((page - 1) * size, size)
+}
 
 /**
  * Issue type select
