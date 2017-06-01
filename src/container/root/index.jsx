@@ -8,6 +8,7 @@ import CreateIssue from 'app/view/create_issue'
 import EditIssue from 'app/view/edit_issue'
 import NoMatch from 'app/view/no_match'
 import './index.css'
+import UserBar from 'app/view/user_bar'
 const {Header, Content, Footer, Sider} = Layout
 const {Item} = Menu
 
@@ -102,19 +103,24 @@ class Root extends Component {
         </Sider>
         <Layout>
           <Header style={{background: '#fff', padding: 0}}>
-            <Icon
-              type={collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggleCollapse}
-              className='root-side-trigger'
-            />
+            <div className='service-head'>
+              <span style={{lineHeight: '75px'}}>
+                <Icon
+                  type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                  onClick={this.toggleCollapse}
+                  className='root-side-trigger'
+              />
+              </span>
+              <UserBar />
+            </div>
           </Header>
           <Content style={{margin: '24px 16px 0'}}>
-            <div style={{padding: 24, background: '#fff', minHeight}}>
+            <div style={{minHeight}}>
               <Switch>
                 <Route exact path={parsePathWithAppPrefix('/')} component={Home} />
-                <Route exact path={parsePathWithAppPrefix('/issue_list')} component={IssueList} />
                 <Route exact path={parsePathWithAppPrefix('/create_issue')} component={CreateIssue} />
                 <Route exact path={parsePathWithAppPrefix('/edit_issue/:issue_id')} component={EditIssue} />
+                <Route path={parsePathWithAppPrefix('/issue_list/:issue_stat')} component={IssueList} />
                 <Route component={NoMatch} />
               </Switch>
             </div>
