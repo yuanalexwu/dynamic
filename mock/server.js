@@ -103,6 +103,23 @@ app.get(`${API_PREFIX}/issue_list`, function (req, res) {
   res.send(issueListInfo)
 })
 
+/**
+ * Get issue flow list
+ */
+app.get(`${API_PREFIX}/flow_list`, function (req, res) {
+  const flowList = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'flow_list.json'), 'utf-8'))
+  res.json(flowList)
+})
+
+/**
+ * Create Issue
+ */
+app.get(`${API_PREFIX}/create_issue/:flowId`, function (req, res) {
+  const { flowId = ''} = req.params // eslint-disable-line
+  const data = {issueId: 10001}
+  res.json(data)
+})
+
 function parseList (list, page, size) {
   return list.splice((page - 1) * size, size)
 }

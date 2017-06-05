@@ -1,0 +1,8 @@
+.flow-content {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+.flow-item {
+  margin-left: 20px;
+}

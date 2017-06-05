@@ -35,6 +35,7 @@ class Input extends Component {
     if (style) {
       extraProps.style = style
     }
+    style.background = '#ffffff'
 
     let errorClass = 'has-error-word'
     if (validatePosition) {

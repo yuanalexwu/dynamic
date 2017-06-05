@@ -5,10 +5,13 @@ import {Link} from 'react-router-dom'
 import {parsePathWithAppPrefix} from 'app/util'
 import ListIssue from 'app/view/list_issue'
 import {getHomeInfo} from 'app/action/home'
+import {createIssue} from 'app/action/flow'
 import {
   ALL_ISSUE, HANDLING_ISSUE, UNHANDLING_ISSUE,
   FINISH_ISSUE
 } from 'app/common'
+
+const DEFAULT_FLOW_ID = 200001
 
 class Home extends Component {
   componentDidMount () {
@@ -41,6 +44,11 @@ class Home extends Component {
     })
   }
 
+  handleClick = () => {
+    const {history} = this.props
+    this.props.createIssue(DEFAULT_FLOW_ID, history)
+  }
+
   render () {
     const {home} = this.props
     const {total = 0, handling = 0, unhandling = 0, finish = 0, list = []} = home
@@ -55,11 +63,14 @@ class Home extends Component {
         <div className='row'>
           <div className='blank20' />
           <div className='dhms-xs-24'>
-            <Link to={parsePathWithAppPrefix('/create_issue')}>
-              <div className='add-new text-center'>
-                <i className='service-list-add color-white' /><br /><span className='color-white font16'>开工单</span>
-              </div>
-            </Link>
+            <div
+              className='add-new text-center'
+              onClick={this.handleClick}
+            >
+              <i className='service-list-add color-white' />
+              <br />
+              <span className='color-white font16'>开工单</span>
+            </div>
           </div>
           <div className='blank20' />
         </div>
@@ -89,6 +100,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     getHomeInfo: bindActionCreators(getHomeInfo, dispatch),
+    createIssue: bindActionCreators(createIssue, dispatch)
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
