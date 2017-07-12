@@ -1,8 +1,10 @@
 import * as ActionType from '../constant'
+import {buildRequestUrl} from '../util'
 
-export function getContactSelect () {
+export function getContactSelect (custId) {
   return (dispatch) => {
-    fetch('/api/contact').then(data => { // eslint-disable-line
+    const path = buildRequestUrl('/gw/usercenter/contact/select', {custId})
+    fetch(path).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {
       const action = {

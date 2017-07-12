@@ -14,6 +14,7 @@ import {Button} from 'antd'
 import TextArea from '../textarea'
 import Upload from '../upload'
 import Label from '../label'
+import {SUBMIT_API} from './common'
 
 /**
  * Convert seconds to microseconds
@@ -110,10 +111,18 @@ class Wrapper extends Component {
     /**
      * Set select data
      */
-    this[`${CUSTOMER_SELECT_NAME}_list`] = customerSelect
-    this[`${DEVICE_SELECT_NAME}_list`] = deviceSelect
-    this[`${ISSUE_TYPE_SELECT_NAME}_list`] = issueTypeSelect
-    this[`${CONTACT_SELECT_NAME}_list`] = contactSelect
+    if (customerSelect.length > 0) {
+      this[`${CUSTOMER_SELECT_NAME}_list`] = customerSelect
+    }
+    if (deviceSelect.length > 0) {
+      this[`${DEVICE_SELECT_NAME}_list`] = deviceSelect
+    }
+    if (issueTypeSelect.length > 0) {
+      this[`${ISSUE_TYPE_SELECT_NAME}_list`] = issueTypeSelect
+    }
+    if (contactSelect.length > 0) {
+      this[`${CONTACT_SELECT_NAME}_list`] = contactSelect
+    }
   }
 
   initConfig = (jsonConfig) => {
@@ -263,11 +272,14 @@ class Wrapper extends Component {
               this.FETCH_MAP[name]()
             })
           }
-          if (target) {
-            // TODO here we get a problem that we don't know whether the
-            // target select option will fetch from server or set from configuration
-            requests.push(() => {
-              this.FETCH_MAP[target](defaultValue)
+
+          // TODO here we get a problem that we don't know whether the
+          // target select option will fetch from server or set from configuration
+          if (typeof target === 'array') {
+            target.map((targetName) => {
+              requests.push(() => {
+                this.FETCH_MAP[targetName](defaultValue)
+              })
             })
           }
         } else {
@@ -506,23 +518,25 @@ class Wrapper extends Component {
    * @param {object}option The configuration option of element
    */
   bindEventOnProps = (props, option) => {
-    const {type, name, target, sync} = option
+    const {type, name, target = [], sync} = option
     switch (type) {
       case SELECT_ELEMENT_TYPE: {
-        if (target) {
+        if (target.length > 0) {
           const {FETCH_MAP} = this
           props.onChange = this.handleAntSelectChange(name, value => {
             // value: Will passed from the onChange `event.target.value`
             // if it's connected to another select, and we will set it to default
             // and then fetch new data for the connected select
-            this[`${target}_list`] = []
-            this.setState({
-              [target]: ''
+            target.map(targetName => {
+              this[`${targetName}_list`] = []
+              this.setState({
+                [targetName]: ''
+              })
+              // TODO Maybe we do not need to fetch new data from server
+              if (FETCH_MAP.hasOwnProperty(targetName)) {
+                FETCH_MAP[targetName](value)
+              }
             })
-            // TODO Maybe we do not need to fetch new data from server
-            if (FETCH_MAP.hasOwnProperty(target)) {
-              FETCH_MAP[target](value)
-            }
           })
         } else {
           props.onChange = this.handleAntSelectChange(name, value => {
@@ -730,7 +744,7 @@ class Wrapper extends Component {
         return createElement(type, props, children)
       }
       case BUTTON_ELEMENT_TYPE: {
-        const { defaultValue, ...restProps } = props
+        const {defaultValue, ...restProps} = props
         return createElement(Button, restProps, defaultValue)
       }
       case TEXTAREA_ELEMENT_TYPE: {
@@ -751,7 +765,20 @@ class Wrapper extends Component {
 
   render () {
     const elem = this.renderElement(this.renderConfig)
-    return <div>{elem}</div>
+    return (
+      <div>
+        {elem}
+        <div className='clearfix text-center'>
+          <Button
+            style={{width: '200px'}}
+            type='primary'
+            onClick={this.handleSubmit(SUBMIT_API)}
+          >
+            提交
+          </Button>
+        </div>
+      </div>
+    )
   }
 }
 
@@ -760,10 +787,10 @@ function mapStateToProps (state) {
     customer = {}, device = {}, issue = {},
     contact = {}
   } = state
-  const {customerSelect} = customer || []
-  const {deviceSelect} = device || []
-  const {issueTypeSelect} = issue || []
-  const {contactSelect} = contact || []
+  const {customerSelect = []} = customer
+  const {deviceSelect = []} = device
+  const {issueTypeSelect = []} = issue
+  const {contactSelect = []} = contact
   return {
     customerSelect,
     deviceSelect,

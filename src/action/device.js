@@ -1,13 +1,13 @@
 import * as ActionType from '../constant'
+import {buildRequestUrl} from '../util'
 
-export function getDeviceSelectByCustomer (customerNo) {
+export function getDeviceSelectByCustomer (custId) {
   return dispatch => {
-    if (!customerNo) {
+    if (!custId) {
       return
     }
-    const path = `/api/device/${customerNo}`
-    fetch(path)// eslint-disable-line
-    .then(data => {
+    const path = buildRequestUrl('/gw/devicecenter/device/select', {custId})
+    fetch(path).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {
       const action = {

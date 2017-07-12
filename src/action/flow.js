@@ -1,9 +1,9 @@
 import * as ActionType from '../constant'
-import {buildRequestUrl, parsePathWithAppPrefix} from 'app/util'
+import {buildRequestUrl, parsePathWithAppPrefix} from 'app/util' // eslint-disable-line
 
-export function getFlowList (query) {
+export function getFlowList (userId) {
   return (dispatch) => {
-    const path = buildRequestUrl('/api/flow_list', query)
+    const path = buildRequestUrl('/gw/issuecenter/process/select')
     fetch(path).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {
@@ -20,8 +20,7 @@ export function getFlowList (query) {
 
 export function createIssue (flowId, history) {
   return (dispatch) => {
-    const path = buildRequestUrl(`/api/create_issue/${flowId}`)
-    fetch(path).then(data => { // eslint-disable-line
+    fetch(`/gw/issuecenter/issue/create?pro_uid=${flowId}`).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {
       const {issueId} = data

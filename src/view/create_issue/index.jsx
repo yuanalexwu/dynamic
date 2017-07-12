@@ -2,11 +2,14 @@ import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getFlowList, createIssue} from 'app/action/flow'
+import {getUserInfo} from 'app/util'
 import './index.css'
 
 class CreateIssue extends Component {
   componentWillMount () {
-    this.props.getFlowList()
+    const user = getUserInfo()
+    const {userId} = user
+    this.props.getFlowList(userId)
   }
 
   handleClick = (flowId) => () => {
@@ -16,9 +19,8 @@ class CreateIssue extends Component {
 
   render () {
     const {flowList} = this.props
-    console.log('CreateIssue render() ', flowList)
     let renderFlowList = flowList.map((flow, idx) => {
-      const {flowId, name} = flow
+      const {pro_uid: flowId, pro_title: name} = flow
       return (
         <div
           key={idx}

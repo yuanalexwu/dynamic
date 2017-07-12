@@ -1,8 +1,10 @@
 import * as ActionType from '../constant'
+import {buildRequestUrl} from '../util'
 
 export function getIssueTypeSelect () {
   return (dispatch) => {
-    fetch('/api/issue_type').then(data => { // eslint-disable-line
+    const path = buildRequestUrl('/gw/issuecenter/issue_type/select')
+    fetch(path).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {
       const action = {

@@ -6,6 +6,7 @@
     "react/prop-types": [0],
     "no-debugger": [0],
     "comma-dangle": [0],
-    "camelcase": [0]
+    "camelcase": [0],
+    "valid-typeof": [0]
   }
 }

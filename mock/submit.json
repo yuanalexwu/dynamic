@@ -1,0 +1,31 @@
+[
+  {
+    "type": "div",
+    "className": [
+      "clearfix text-center",
+      {
+        "sm": 9,
+        "offset": 0
+      }
+    ],
+    "style": {
+      "padding": "5px 0"
+    },
+    "children": [
+      {
+        "type": "button",
+        "className": [
+          "",
+          {
+            "sm": 10
+          }
+        ],
+        "action": {
+          "type": "submit",
+          "handler": "/api/submit"
+        },
+        "defaultValue": "提交"
+      }
+    ]
+  }
+]

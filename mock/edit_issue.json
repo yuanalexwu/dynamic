@@ -48,6 +48,10 @@
         "type": "select",
         "name": "issue_type",
         "defaultValue": "",
+        "option": [
+          ["10001", "故障报修"],
+          ["10002", "安装调试"]
+        ],
         "className": [
           "",
           {
@@ -81,8 +85,13 @@
         "type": "select",
         "id": "customer",
         "name": "customer",
-        "target": "device",
+        "target": ["device", "contact"],
         "defaultValue": "",
+        "option": [
+          ["1001", "客户1"],
+          ["1002", "客户2"],
+          ["1003", "客户3"]
+        ],
         "className": [
           "color-red",
           {
@@ -150,6 +159,7 @@
       {
         "type": "select",
         "name": "contact",
+        "source": "customer",
         "sync": "tel",
         "defaultValue": "",
         "className": [
@@ -230,37 +240,6 @@
           "required": false
         },
         "validateMessage": "验证失败"
-      }
-    ],
-    [
-      {
-        "type": "div",
-        "className": [
-          "clearfix text-center",
-          {
-            "sm": 9,
-            "offset": 0
-          }
-        ],
-        "style": {
-          "padding": "5px 0"
-        },
-        "children": [
-          {
-            "type": "button",
-            "className": [
-              "",
-              {
-                "sm": 10
-              }
-            ],
-            "action": {
-              "type": "submit",
-              "handler": "/api/submit"
-            },
-            "defaultValue": "提交"
-          }
-        ]
       }
     ]
   ]

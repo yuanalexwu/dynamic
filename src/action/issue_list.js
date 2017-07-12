@@ -3,7 +3,7 @@ import {buildRequestUrl} from 'app/util'
 
 export function getIssueList (query) {
   return (dispatch) => {
-    const path = buildRequestUrl('/api/issue_list', query)
+    const path = buildRequestUrl('/gw/issuecenter/issue/list', query)
     fetch(path).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {

@@ -1,8 +1,10 @@
 import * as ActionType from '../constant'
+import {buildRequestUrl} from '../util'
 
 export function getHomeInfo () {
   return (dispatch) => {
-    fetch('/api/home/info').then(data => { // eslint-disable-line
+    const path = buildRequestUrl('/gw/issuecenter/home')
+    fetch(path).then(data => { // eslint-disable-line
       return data.json()
     }).then(data => {
       const action = {
