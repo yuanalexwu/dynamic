@@ -34,7 +34,12 @@ app.get(`${USERCENTER_API}/customer/select`, function (req, res) {
     ['1002', '客户2'],
     ['1003', '客户3']
   ]
-  res.json(data)
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
@@ -56,7 +61,12 @@ app.get(`${USERCENTER_API}/contact/select`, function (req, res) {
       return entry.data[0]
     })
   }
-  res.json(data)
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
@@ -78,14 +88,25 @@ app.get(`${DEVICECENTER_API}/device/select`, function (req, res) {
       return entry.data[0]
     })
   }
-  res.json(data)
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
  * home
  */
 app.get(`${ISSUECENTER_API}/home`, function (req, res) {
-  res.send(fs.readFileSync('home.json', 'utf-8'))
+  const data = JSON.parse(fs.readFileSync('home.json', 'utf-8'))
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
@@ -116,21 +137,31 @@ app.get(`${ISSUECENTER_API}/issue/list`, function (req, res) {
     total = list.length
     list = parseList(list, page, size)
   }
-  const issueListInfo = {
+  const data = {
     total,
     page,
     size,
     list
   }
-  res.send(issueListInfo)
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
  * Get issue flow list
  */
 app.get(`${ISSUECENTER_API}/process/select`, function (req, res) {
-  const flowList = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'flow_list.json'), 'utf-8'))
-  res.json(flowList)
+  const data = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'flow_list.json'), 'utf-8'))
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
@@ -139,7 +170,12 @@ app.get(`${ISSUECENTER_API}/process/select`, function (req, res) {
 app.get(`${ISSUECENTER_API}/issue/create`, function (req, res) {
   const { pro_uid = ''} = req.query // eslint-disable-line
   const data = {issueId: 10001}
-  res.json(data)
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 function parseList (list, page, size) {
@@ -151,14 +187,23 @@ function parseList (list, page, size) {
  */
 app.post(`/upload`, function (req, res) {
   const data = {status: 'success', id: faker.random.uuid()}
-  res.json(data)
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+    data
+  })
 })
 
 /**
  * Submit user input
  */
 app.post(`${ISSUECENTER_API}/issue/save`, function (req, res) {
-  res.json({status: 'success'})
+  res.json({
+    status: 200,
+    msg: '成功',
+    devmsg: '',
+  })
 })
 
 app.listen(PORT, function () {
