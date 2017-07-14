@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import {Route, Link, Switch, Redirect} from 'react-router-dom'
 import {Layout, Menu, Icon} from 'antd'
 import {getUserInfo, getMenu, parsePathWithAppPrefix} from 'app/util'
+import {DRAFT} from 'app/common'
 import Home from 'app/view/home'
 import IssueList from 'app/view/issue_list'
 import CreateIssue from 'app/view/create_issue'
 import EditIssue from 'app/view/edit_issue'
 import NoMatch from 'app/view/no_match'
+import Loading from 'app/components/loading'
 import './index.css'
 import UserBar from 'app/view/user_bar'
 const {Header, Content, Footer, Sider} = Layout
@@ -48,7 +50,7 @@ class Root extends Component {
     const menuItems = menus.map((menu, idx) => {
       let {name, path, icon} = menu
       path = parsePathWithAppPrefix(path)
-      if (currentPath === path) {
+      if (currentPath.indexOf(path) !== -1) {
         selectedKey = `${idx}`
       }
       const iconStyle = {
@@ -88,6 +90,7 @@ class Root extends Component {
     const {menuItems, selectedKey} = this.getMenuInfo(collapsed, currentPath)
     return (
       <Layout>
+        <Loading />
         <Sider
           breakpoint='lg'
           trigger={null}
@@ -121,6 +124,7 @@ class Root extends Component {
                 <Route exact path={parsePathWithAppPrefix('/create_issue')} component={CreateIssue} />
                 <Route exact path={parsePathWithAppPrefix('/edit_issue/:issue_id')} component={EditIssue} />
                 <Route path={parsePathWithAppPrefix('/issue_list/:issue_stat')} component={IssueList} />
+                <Route path={parsePathWithAppPrefix('/issue_list')} render={() => <Redirect to={parsePathWithAppPrefix(`/issue_list/${DRAFT}`)} />} />
                 <Route component={NoMatch} />
               </Switch>
             </div>

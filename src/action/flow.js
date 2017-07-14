@@ -1,46 +1,53 @@
 import * as ActionType from '../constant'
-import {buildRequestUrl, parsePathWithAppPrefix} from 'app/util' // eslint-disable-line
-import {notification} from 'antd'
+import {PLATFORM, POST} from 'app/common'
+import baseFetch from './base_fetch'
+import {
+  buildRequestUrl,
+  parsePathWithAppPrefix,
+  getUserInfo,
+  warnNotification,
+  addApiExtraPostInfo,
+} from 'app/util'
 
 export function getFlowList (userId) {
   return (dispatch) => {
-    const path = buildRequestUrl('/gw/issuecenter/process/select')
-    fetch(path).then(data => { // eslint-disable-line
-      return data.json()
-    }).then(res => {
-      const {status, data, msg: description = '', devmsg = ''} = res
-      if (status === 200) {
+    const userInfo = getUserInfo()
+    const {userId = ''} = userInfo
+    const url = buildRequestUrl(`/v1/d/workorder/${PLATFORM}/${userId}`)
+    const option = {
+      url,
+      success: res => {
+        let {data} = res
         const action = {
           type: ActionType.FLOW_LIST_SUCCESS,
-          data: data
+          data
         }
         dispatch(action)
-      } else {
-        notification.warning({message: '出现问题', description})
-        console.log(devmsg)
+      },
+      error: description => {
+        warnNotification({description, duration: 0})
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }
+    baseFetch(option, dispatch)
   }
 }
 
 export function createIssue (pro_uid, history) {
   return (dispatch) => {
-    const path = buildRequestUrl('/gw/issuecenter/issue/create', {pro_uid})
-    fetch(path).then(data => { // eslint-disable-line
-      return data.json()
-    }).then(res => {
-      const {status, data, msg: description = '', devmsg = ''} = res
-      if (status === 200) {
-        const {issueId} = data
-        history.push(parsePathWithAppPrefix(`/edit_issue/${issueId}`))
-      } else {
-        notification.warning({message: '出现问题', description})
-        console.log(devmsg)
+    const url = buildRequestUrl(`/v1/app/create/${pro_uid}`)
+    const data = addApiExtraPostInfo()
+    const option = {
+      url,
+      data,
+      method: POST,
+      success: res => {
+        const {app_uid} = res
+        history.push(parsePathWithAppPrefix(`/edit_issue/${app_uid}`))
+      },
+      error: description => {
+        warnNotification({description, duration: 0})
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }
+    baseFetch(option, dispatch)
   }
 }

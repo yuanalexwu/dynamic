@@ -1,26 +1,36 @@
 import * as ActionType from '../constant'
-import {buildRequestUrl} from 'app/util'
-import {notification} from 'antd'
+import {
+  PLATFORM,
+} from 'app/common'
+import baseFetch from './base_fetch'
+import {
+  buildRequestUrl,
+  getUserInfo,
+  warnNotification,
+} from 'app/util'
 
-export function getIssueList (query) {
+export function getIssueList (issue_stat, query) {
   return (dispatch) => {
-    const path = buildRequestUrl('/gw/issuecenter/issue/list', query)
-    fetch(path).then(data => { // eslint-disable-line
-      return data.json()
-    }).then(res => {
-      const {status, data, msg: description = '', devmsg = ''} = res
-      if (status === 200) {
+    const userInfo = getUserInfo()
+    const {userId = ''} = userInfo
+    const url = buildRequestUrl(`/v1/workorder/${PLATFORM}/${userId}/${issue_stat}`, query)
+    const option = {
+      url,
+      success: res => {
+        // TODO Here we only got data with list, we need more infoes about pagination
+        const {data = []} = res
         const action = {
           type: ActionType.ISSUE_LIST_SUCCESS,
-          data: data
+          data: {
+            list: data
+          }
         }
         dispatch(action)
-      } else {
-        notification.warning({message: '出现问题', description})
-        console.log(devmsg)
+      },
+      error: description => {
+        warnNotification({description, duration: 0})
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }
+    baseFetch(option, dispatch)
   }
 }

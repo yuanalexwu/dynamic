@@ -1,0 +1,9 @@
+.loading-wrapper {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+}
+.loading-wrapper.show {
+    display: block;
+}

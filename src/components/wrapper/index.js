@@ -1,5 +1,6 @@
 import React, {Component, createElement} from 'react'
 import {bindActionCreators} from 'redux'
+import {withRouter} from 'react-router-dom'
 import * as customerAction from '../../action/customer'
 import * as deviceAction from '../../action/device'
 import * as commonAction from '../../action/common'
@@ -14,7 +15,6 @@ import {Button} from 'antd'
 import TextArea from '../textarea'
 import Upload from '../upload'
 import Label from '../label'
-import {SUBMIT_API} from './common'
 
 /**
  * Convert seconds to microseconds
@@ -606,13 +606,21 @@ class Wrapper extends Component {
   /**
    * submit to server
    */
-  handleSubmit = api => () => {
-    const data = this.getValidData()
-    if (!data) {
-      return false
+  handleSubmit = () => {
+    let form_data = this.getValidData()
+    if (!form_data) {
+      return
     }
-    console.log('submit', api, data)
-    this.props.submitData(api, data)
+    const {match = {}} = this.props
+    const { params = {} } = match
+    const {issue_id: app_uid = ''} = params
+    form_data = JSON.stringify(form_data)
+    const data = {
+      app_uid,
+      form_data,
+    }
+    const {history} = this.props
+    this.props.submitData(data, history)
   }
 
   /**
@@ -772,7 +780,7 @@ class Wrapper extends Component {
           <Button
             style={{width: '200px'}}
             type='primary'
-            onClick={this.handleSubmit(SUBMIT_API)}
+            onClick={this.handleSubmit}
           >
             提交
           </Button>
@@ -809,4 +817,4 @@ function mapDispatchToProps (dispatch) {
     submitData: bindActionCreators(commonAction.submitData, dispatch),
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Wrapper)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Wrapper))

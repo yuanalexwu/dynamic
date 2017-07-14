@@ -1,26 +1,39 @@
 import * as ActionType from '../constant'
-import {buildRequestUrl} from '../util'
-import {notification} from 'antd'
+import baseFetch from 'app/action/base_fetch'
+import config from 'app/config'
+import {
+  warnNotification,
+  getUserInfo,
+} from 'app/util'
 
-export function getHomeInfo () {
-  return (dispatch) => {
-    const path = buildRequestUrl('/gw/issuecenter/home')
-    fetch(path).then(data => { // eslint-disable-line
-      return data.json()
-    }).then(res => {
-      const {status, data, msg: description = '', devmsg = ''} = res
-      if (status === 200) {
+const API_URL = config.getApi()
+
+export function getHomeStatistics () {
+  const userInfo = getUserInfo()
+  const {userId} = userInfo
+  return dispatch => {
+    const url = `${API_URL}/v1/app/statistics/${userId}`
+    const option = {
+      url,
+      success: res => {
+        const {data = {}} = res
+        let {
+          draft = 0,
+          todo = 0,
+          completed = 0,
+        } = data
         const action = {
-          type: ActionType.HOME_INFO_SUCCESS,
-          data
+          type: ActionType.HOME_STATISTICS_SUCCESS,
+          statistics: {
+            draft, todo, completed
+          }
         }
         dispatch(action)
-      } else {
-        notification.warning({message: '出现问题', description})
-        console.log(devmsg)
+      },
+      error: description => {
+        warnNotification({description, duration: 0})
       }
-    }).catch(err => {
-      console.log(err)
-    })
+    }
+    baseFetch(option, dispatch)
   }
 }

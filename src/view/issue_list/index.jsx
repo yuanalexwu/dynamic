@@ -6,19 +6,21 @@ import ListIssue from 'app/view/list_issue'
 import {getIssueList} from 'app/action/issue_list'
 import {parsePathWithAppPrefix} from 'app/util'
 import Pagination from 'app/components/pagination'
+import NoData from 'app/components/no_data'
 import {
   DEFAULT_ISSUE_LIST_PAGE,
   DEFAULT_ISSUE_LIST_SIZE,
   DEFAULT_ISSUE_LIST_STAT,
-  ALL_ISSUE,
-  HANDLING_ISSUE,
-  UNHANDLING_ISSUE,
-  FINISH_ISSUE
+  TODO_ISSUE,
+  DRAFT_ISSUE,
+  COMPLETED_ISSUE
 } from 'app/common'
 
 class IssueList extends Component {
   componentDidMount () {
-    const {issue_stat = DEFAULT_ISSUE_LIST_STAT} = this.props.match
+    const {match = {}} = this.props
+    const {params = {}} = match
+    const {issue_stat = DEFAULT_ISSUE_LIST_STAT} = params
     this.handleload(issue_stat, DEFAULT_ISSUE_LIST_PAGE, DEFAULT_ISSUE_LIST_SIZE)
   }
 
@@ -30,21 +32,19 @@ class IssueList extends Component {
     }
   }
 
-  handleload = (issue_stat, page, size) => {
+  handleload = (issue_stat, offset, limit) => {
     const query = {
-      page,
-      size,
-      stat: issue_stat
+      offset,
+      limit,
     }
-    this.props.getIssueList(query)
+    this.props.getIssueList(issue_stat, query)
   }
 
   parseTab = (issue_stat) => {
     const tabs = [
-      ALL_ISSUE,
-      HANDLING_ISSUE,
-      UNHANDLING_ISSUE,
-      FINISH_ISSUE
+      DRAFT_ISSUE,
+      TODO_ISSUE,
+      COMPLETED_ISSUE
     ]
     return <ul className='tab-name font16'>
       {
@@ -70,16 +70,17 @@ class IssueList extends Component {
   render () {
     const {issueList, match} = this.props
     const {issue_stat} = match.params
-    /*eslint-disable*/
     const {
       total = 0,
-      page = DEFAULT_ISSUE_LIST_PAGE,
-      size = DEFAULT_ISSUE_LIST_SIZE,
+      offset = DEFAULT_ISSUE_LIST_PAGE,
+      limit = DEFAULT_ISSUE_LIST_SIZE,
       list = []
     } = issueList
-    /*eslint-enable*/
 
-    const renderTableList = list.map((issue, idx) => <ListIssue key={idx} issue={issue} />)
+    let renderTableList = list.map((issue, idx) => <ListIssue key={idx} issue={issue} />)
+    if (renderTableList.length <= 0) {
+      renderTableList = <NoData />
+    }
 
     return (
       <div className='service-content'>
@@ -92,8 +93,8 @@ class IssueList extends Component {
           {renderTableList}
         </ul>
         <Pagination
-          page={page}
-          size={size}
+          page={offset}
+          size={limit}
           total={total}
           onClick={this.handlePageChange}
         />

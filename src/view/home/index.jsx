@@ -4,29 +4,40 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {parsePathWithAppPrefix} from 'app/util'
 import ListIssue from 'app/view/list_issue'
-import {getHomeInfo} from 'app/action/home'
+import {getHomeStatistics} from 'app/action/home'
+import {getIssueList} from 'app/action/issue_list'
 import {createIssue} from 'app/action/flow'
 import {
-  ALL_ISSUE, HANDLING_ISSUE, UNHANDLING_ISSUE,
-  FINISH_ISSUE
+  TODO_ISSUE,
+  DRAFT_ISSUE,
+  COMPLETED_ISSUE,
+  DEFAULT_ISSUE_LIST_PAGE,
+  DEFAULT_ISSUE_LIST_SIZE,
+  DEFAULT_ISSUE_LIST_STAT,
 } from 'app/common'
+import NoData from 'app/components/no_data'
 
 const DEFAULT_FLOW_ID = 200001
 
 class Home extends Component {
   componentDidMount () {
-    this.props.getHomeInfo()
+    this.props.getHomeStatistics()
+    const query = {
+      offset: DEFAULT_ISSUE_LIST_PAGE,
+      limit: DEFAULT_ISSUE_LIST_SIZE,
+    }
+    this.props.getIssueList(DEFAULT_ISSUE_LIST_STAT, query)
   }
 
   parseTabs = (countList) => {
-    return [ALL_ISSUE, HANDLING_ISSUE, UNHANDLING_ISSUE, FINISH_ISSUE].map((tab, idx) => {
+    return [TODO_ISSUE, DRAFT_ISSUE, COMPLETED_ISSUE].map((tab, idx) => {
       const {stat, name, icon, iconBgColorClass} = tab
       const count = countList[idx]
       const issueListPath = `issue_list/${stat}`
       const iconBgClass = `${iconBgColorClass} fl icon-box`
       const iconClass = `${icon} color-white`
       return (
-        <div key={idx} className='dhms-md-6 dhms-xs-24 index-list'>
+        <div key={idx} className='dhms-md-8 dhms-xs-24 index-list'>
           <Link to={parsePathWithAppPrefix(issueListPath)}>
             <div className='bg-white list-info clearfix'>
               <span className={iconBgClass}>
@@ -50,9 +61,9 @@ class Home extends Component {
   }
 
   render () {
-    const {home} = this.props
-    const {total = 0, handling = 0, unhandling = 0, finish = 0, list = []} = home
-    const countList = [total, handling, unhandling, finish]
+    const {statistics = {}, list = []} = this.props
+    const {todo = 0, draft = 0, completed = 0} = statistics
+    const countList = [todo, draft, completed]
 
     return (
       <div className='service-content'>
@@ -60,20 +71,7 @@ class Home extends Component {
         <div className='clearfix'>
           {this.parseTabs(countList)}
         </div>
-        <div className='row'>
-          <div className='blank20' />
-          <div className='dhms-xs-24'>
-            <div
-              className='add-new text-center'
-              onClick={this.handleClick}
-            >
-              <i className='service-list-add color-white' />
-              <br />
-              <span className='color-white font16'>开工单</span>
-            </div>
-          </div>
-          <div className='blank20' />
-        </div>
+        <br />
         <div className='recent-process'>
           <div className='s-h1 font20 color-black'>
             <strong>最近处理</strong>
@@ -83,7 +81,7 @@ class Home extends Component {
             {
               list.length > 0
                 ? list.map((issue, idx) => <ListIssue key={idx} issue={issue} />)
-                : <div style={{width: '100%', textAlign: 'center'}}>无数据</div>
+                : <NoData />
             }
           </ul>
         </div>
@@ -93,13 +91,16 @@ class Home extends Component {
 }
 
 function mapStateToProps (state) {
-  const {home = {}} = state
-  return {home}
+  const {home = {}, issueList = {}} = state
+  const {statistics = {}} = home
+  const {list = []} = issueList
+  return {statistics, list}
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    getHomeInfo: bindActionCreators(getHomeInfo, dispatch),
+    getHomeStatistics: bindActionCreators(getHomeStatistics, dispatch),
+    getIssueList: bindActionCreators(getIssueList, dispatch),
     createIssue: bindActionCreators(createIssue, dispatch)
   }
 }

@@ -7,6 +7,7 @@ import contact from './contact'
 import home from './home'
 import issueList from './issue_list'
 import flow from './flow'
+import base from './base'
 
 const reducer = combineReducers({
   customer,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
   common,
   home,
   issueList,
-  flow
+  flow,
+  base
 })
 
 export default reducer
