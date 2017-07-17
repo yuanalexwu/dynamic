@@ -15,6 +15,7 @@ import {Button} from 'antd'
 import TextArea from '../textarea'
 import Upload from '../upload'
 import Label from '../label'
+import {mergeOption} from './common'
 
 /**
  * Convert seconds to microseconds
@@ -97,7 +98,7 @@ class Wrapper extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const {
+    let {
       jsonConfig = {}, customerSelect, deviceSelect,
       issueTypeSelect, contactSelect
     } = nextProps
@@ -112,15 +113,19 @@ class Wrapper extends Component {
      * Set select data
      */
     if (customerSelect.length > 0) {
+      customerSelect = this.parseOptionWithDefaultValue(customerSelect, CUSTOMER_SELECT_NAME)
       this[`${CUSTOMER_SELECT_NAME}_list`] = customerSelect
     }
     if (deviceSelect.length > 0) {
+      deviceSelect = this.parseOptionWithDefaultValue(deviceSelect, DEVICE_SELECT_NAME)
       this[`${DEVICE_SELECT_NAME}_list`] = deviceSelect
     }
     if (issueTypeSelect.length > 0) {
+      issueTypeSelect = this.parseOptionWithDefaultValue(issueTypeSelect, ISSUE_TYPE_SELECT_NAME)
       this[`${ISSUE_TYPE_SELECT_NAME}_list`] = issueTypeSelect
     }
     if (contactSelect.length > 0) {
+      contactSelect = this.parseOptionWithDefaultValue(contactSelect, CONTACT_SELECT_NAME)
       this[`${CONTACT_SELECT_NAME}_list`] = contactSelect
     }
   }
@@ -259,14 +264,22 @@ class Wrapper extends Component {
         } else if (type === UPLOAD_ELEMENT_TYPE) {
           state[name] = []
         } else if (type === SELECT_ELEMENT_TYPE && !source) {
+          const hasDefaultOptionValue = typeof defaultValue === 'array'
           /**
            * `source` means this select data will be set according
            * to other `select`
            */
           if (option instanceof Array) {
+            let newOption = option.slice()
             // set select default data
-            this[`${name}_list`] = option
+            if (hasDefaultOptionValue) {
+              newOption = mergeOption(newOption, defaultValue)
+            }
+            this[`${name}_list`] = newOption
           } else {
+            if (hasDefaultOptionValue) {
+              this[`${name}_default_option`] = defaultValue
+            }
             // get select data from server
             requests.push(() => {
               this.FETCH_MAP[name]()
@@ -769,6 +782,14 @@ class Wrapper extends Component {
         }
       }
     }
+  }
+
+  parseOptionWithDefaultValue = (option, selectName) => {
+    const defaultOption = this[`${selectName}_default_option`]
+    if (typeof defaultOption === 'array') {
+      option = mergeOption(option, defaultOption)
+    }
+    return option
   }
 
   render () {

@@ -37,8 +37,11 @@ class CreateIssue extends Component {
       renderFlowList = <div style={{width: '100%', textAlign: 'center', fontSize: '2em'}}>无数据</div>
     }
     return (
-      <div className='flow-content'>
-        {renderFlowList}
+      <div>
+        <h3>请选择流程</h3>
+        <div className='flow-content'>
+          {renderFlowList}
+        </div>
       </div>
     )
   }

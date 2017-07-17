@@ -68,7 +68,7 @@ class IssueList extends Component {
   }
 
   render () {
-    const {issueList, match} = this.props
+    const {issueList, match, history} = this.props
     const {issue_stat} = match.params
     const {
       total = 0,
@@ -77,7 +77,9 @@ class IssueList extends Component {
       list = []
     } = issueList
 
-    let renderTableList = list.map((issue, idx) => <ListIssue key={idx} issue={issue} />)
+    let renderTableList = list.map((issue, idx) => (
+      <ListIssue key={idx} issue={issue} history={history} />
+    ))
     if (renderTableList.length <= 0) {
       renderTableList = <NoData />
     }

@@ -1,6 +1,5 @@
 import * as ActionType from '../constant'
-import {buildRequestUrl} from '../util'
-import {notification} from 'antd'
+import {buildRequestUrl, warnNotification} from '../util'
 
 export function getIssueTypeSelect () {
   return (dispatch) => {
@@ -16,7 +15,7 @@ export function getIssueTypeSelect () {
         }
         dispatch(action)
       } else {
-        notification.warning({message: '出现问题', description})
+        warnNotification({description})
         console.log(devmsg)
       }
     }).catch(err => {

@@ -28,7 +28,7 @@ export function getIssueList (issue_stat, query) {
         dispatch(action)
       },
       error: description => {
-        warnNotification({description, duration: 0})
+        warnNotification({description})
       }
     }
     baseFetch(option, dispatch)

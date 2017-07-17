@@ -31,7 +31,7 @@ export function getHomeStatistics () {
         dispatch(action)
       },
       error: description => {
-        warnNotification({description, duration: 0})
+        warnNotification({description})
       }
     }
     baseFetch(option, dispatch)

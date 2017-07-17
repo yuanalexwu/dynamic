@@ -128,7 +128,7 @@ data|mix|返回的数据|
                     "type": "",
                     "name": "",
                     "readOnly": false,
-                    "defaultValue": "",
+                    "defaultValue": ["10001", "设备"],
                     "target": [],
                     "source": "",
                     "sync":  "",

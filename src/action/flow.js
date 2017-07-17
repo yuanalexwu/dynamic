@@ -25,7 +25,7 @@ export function getFlowList (userId) {
         dispatch(action)
       },
       error: description => {
-        warnNotification({description, duration: 0})
+        warnNotification({description})
       }
     }
     baseFetch(option, dispatch)
@@ -45,7 +45,7 @@ export function createIssue (pro_uid, history) {
         history.push(parsePathWithAppPrefix(`/edit_issue/${app_uid}`))
       },
       error: description => {
-        warnNotification({description, duration: 0})
+        warnNotification({description})
       }
     }
     baseFetch(option, dispatch)

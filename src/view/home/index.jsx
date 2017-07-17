@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -16,8 +17,6 @@ import {
   DEFAULT_ISSUE_LIST_STAT,
 } from 'app/common'
 import NoData from 'app/components/no_data'
-
-const DEFAULT_FLOW_ID = 200001
 
 class Home extends Component {
   componentDidMount () {
@@ -55,13 +54,8 @@ class Home extends Component {
     })
   }
 
-  handleClick = () => {
-    const {history} = this.props
-    this.props.createIssue(DEFAULT_FLOW_ID, history)
-  }
-
   render () {
-    const {statistics = {}, list = []} = this.props
+    const {statistics = {}, list = [], history} = this.props
     const {todo = 0, draft = 0, completed = 0} = statistics
     const countList = [todo, draft, completed]
 
@@ -80,7 +74,7 @@ class Home extends Component {
           <ul className='process-list'>
             {
               list.length > 0
-                ? list.map((issue, idx) => <ListIssue key={idx} issue={issue} />)
+                ? list.map((issue, idx) => <ListIssue key={idx} issue={issue} history={history}/>)
                 : <NoData />
             }
           </ul>

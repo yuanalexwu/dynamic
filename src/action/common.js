@@ -30,7 +30,7 @@ export function getJsonConfig (app_uid) {
         dispatch(action)
       },
       error: description => {
-        warnNotification({description, duration: 0})
+        warnNotification({description})
       }
     }
     baseFetch(option, dispatch)
@@ -51,7 +51,7 @@ export function submitData (data, history) {
         history.push(parsePathWithAppPrefix('/issue_list'))
       },
       error: description => {
-        warnNotification({description, duration: 0})
+        warnNotification({description})
       }
     }
     baseFetch(option, dispatch)
