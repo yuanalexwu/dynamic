@@ -624,7 +624,6 @@ class Wrapper extends Component {
    * @param {Function|undefined}cb Callback will be called with the changed value
    */
   handleAntSelectChange = (key, cb) => value => {
-    console.log('handleAntSelectChange() ', value)
     this.setState({[key]: value || ''}, () => {
       this.getValidData()
       if (typeof cb === 'function') {
@@ -655,9 +654,8 @@ class Wrapper extends Component {
       app_uid,
       form_data,
     }
-    console.log(data)
-    // const {history} = this.props
-    // this.props.submitData(data, history)
+    const {history} = this.props
+    this.props.submitData(data, history)
   }
 
   /**
