@@ -24,7 +24,7 @@ class Pagination extends Component {
     const lastPage = Math.ceil(total / size)
     let className = 'next-link'
     let canFetch = true
-    if (page === lastPage) {
+    if (page >= lastPage) {
       className = `${className} disabled`
       canFetch = false
     }

@@ -52,10 +52,21 @@ const CLASS_TYPE_LG = 'lg'
 /**
  * select name which can load data from server
  */
+const WORKORDER_TYPE_SELECT_NAME = 'workorder_type'
 const CUSTOMER_SELECT_NAME = 'customer'
 const DEVICE_SELECT_NAME = 'device'
 const ISSUE_TYPE_SELECT_NAME = 'issue_type'
 const CONTACT_SELECT_NAME = 'contact'
+// Hold the total select name
+const SELECT_NAME_LIST = [
+  WORKORDER_TYPE_SELECT_NAME,
+  CUSTOMER_SELECT_NAME,
+  DEVICE_SELECT_NAME,
+  ISSUE_TYPE_SELECT_NAME,
+  CONTACT_SELECT_NAME
+]
+// Select key and label delimter
+const SELECT_SUBMIT_DELIM = '__|__'
 
 class Wrapper extends Component {
   constructor (props) {
@@ -265,6 +276,12 @@ class Wrapper extends Component {
           state[name] = []
         } else if (type === SELECT_ELEMENT_TYPE && !source) {
           const hasDefaultOptionValue = typeof defaultValue === 'array'
+          if (hasDefaultOptionValue) {
+            const [key = '', label = ''] = defaultValue
+            state[name] = {key, label}
+          } else {
+            state[name] = {key: '', label: '请选择'}
+          }
           /**
            * `source` means this select data will be set according
            * to other `select`
@@ -289,9 +306,13 @@ class Wrapper extends Component {
           // TODO here we get a problem that we don't know whether the
           // target select option will fetch from server or set from configuration
           if (typeof target === 'array') {
+            let value = defaultValue
+            if (hasDefaultOptionValue) {
+              value = defaultValue[0]
+            }
             target.map((targetName) => {
               requests.push(() => {
-                this.FETCH_MAP[targetName](defaultValue)
+                this.FETCH_MAP[targetName](value)
               })
             })
           }
@@ -554,7 +575,8 @@ class Wrapper extends Component {
         } else {
           props.onChange = this.handleAntSelectChange(name, value => {
             if (sync && value) {
-              this.setState({[sync]: value}, () => {
+              const {key = ''} = value
+              this.setState({[sync]: key}, () => {
                 this.getValidData()
               })
             }
@@ -602,6 +624,7 @@ class Wrapper extends Component {
    * @param {Function|undefined}cb Callback will be called with the changed value
    */
   handleAntSelectChange = (key, cb) => value => {
+    console.log('handleAntSelectChange() ', value)
     this.setState({[key]: value || ''}, () => {
       this.getValidData()
       if (typeof cb === 'function') {
@@ -627,13 +650,14 @@ class Wrapper extends Component {
     const {match = {}} = this.props
     const { params = {} } = match
     const {issue_id: app_uid = ''} = params
-    form_data = JSON.stringify(form_data)
+    // form_data = JSON.stringify(form_data)
     const data = {
       app_uid,
       form_data,
     }
-    const {history} = this.props
-    this.props.submitData(data, history)
+    console.log(data)
+    // const {history} = this.props
+    // this.props.submitData(data, history)
   }
 
   /**
@@ -667,6 +691,14 @@ class Wrapper extends Component {
       const validate = valid[key] || {}
       let {reg, maxLength, required} = validate
       let value = data[key]
+      if (SELECT_NAME_LIST.indexOf(key) !== -1) {
+        // Select's value is {key: '1001', label: 'xxx'}
+        // We only check the `key`
+        const {key: id = '', label = ''} = value
+        value = id
+        // Update select value for submittion
+        data[key] = [id, label].join(SELECT_SUBMIT_DELIM)
+      }
       let hasError = false
       if (reg) {
         reg = new RegExp(reg)

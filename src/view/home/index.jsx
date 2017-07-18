@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -74,7 +73,7 @@ class Home extends Component {
           <ul className='process-list'>
             {
               list.length > 0
-                ? list.map((issue, idx) => <ListIssue key={idx} issue={issue} history={history}/>)
+                ? list.map((issue, idx) => <ListIssue key={idx} issue={issue} history={history} />)
                 : <NoData />
             }
           </ul>

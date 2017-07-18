@@ -42,6 +42,7 @@ class Select extends Component {
           <i className='arrow'><i /></i>
         </div>
         <AntSelect
+          labelInValue
           showSearch
           size='large'
           style={innerStyle}
