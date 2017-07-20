@@ -6,7 +6,8 @@ import {
   warnNotification,
   getUserInfo,
   addApiExtraPostInfo,
-  parsePathWithAppPrefix
+  parsePathWithAppPrefix,
+  isFunc
 } from 'app/util'
 import {message} from 'antd'
 
@@ -37,7 +38,16 @@ export function getJsonConfig (app_uid) {
   }
 }
 
-export function submitData (data, history) {
+export function clearJsonConfig () {
+  return dispatch => {
+    const action = {
+      type: ActionType.CLEAR_JSON_CONFIG_SUCCES
+    }
+    dispatch(action)
+  }
+}
+
+export function submitData (data, history, cb) {
   data = addApiExtraPostInfo(data)
   return dispatch => {
     const url = `${API_URL}/v1/app/task/deliver`
@@ -46,11 +56,12 @@ export function submitData (data, history) {
       method: POST,
       data,
       success: res => {
-        // TODO navigate to another page
+        if (isFunc(cb)) cb()
         message.success('保存成功')
         history.push(parsePathWithAppPrefix('/issue_list'))
       },
       error: description => {
+        if (isFunc(cb)) cb()
         warnNotification({description})
       }
     }

@@ -1,4 +1,4 @@
-import {noop} from 'app/util'
+import {noop, isFunc} from 'app/util'
 import {GET, POST} from 'app/common'
 import * as ActionType from '../constant'
 
@@ -29,9 +29,7 @@ function baseFetch (option, dispatch) {
   }).then(res => {
     const {status, msg = '', devmsg = ''} = res
     if (status === 200) {
-      if (typeof success === 'function') {
-        success(res)
-      }
+      if (isFunc(success)) success(res)
     } else {
       if (typeof error === 'function') {
         error(msg)
@@ -40,10 +38,8 @@ function baseFetch (option, dispatch) {
     }
   }).catch(err => {
     dispatch({type: ActionType.HIDE_LOADING})
-    if (typeof error === 'function') {
-      const {message = ''} = err
-      error(message)
-    }
+    const {message = ''} = err
+    if (isFunc(error)) error(message)
   })
 }
 

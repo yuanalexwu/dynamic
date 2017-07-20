@@ -6,6 +6,9 @@ export default function common (state = [], action = {}) {
       const {config} = action
       return config
     }
+    case ActionTypes.CLEAR_JSON_CONFIG_SUCCES : {
+      return {}
+    }
     default: {
       return state
     }

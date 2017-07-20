@@ -1,6 +1,8 @@
 import * as ActionType from '../constant'
 import {
   PLATFORM,
+  DEFAULT_ISSUE_LIST_PAGE,
+  DEFAULT_ISSUE_LIST_SIZE,
 } from 'app/common'
 import baseFetch from './base_fetch'
 import {
@@ -17,11 +19,16 @@ export function getIssueList (issue_stat, query) {
     const option = {
       url,
       success: res => {
-        // TODO Here we only got data with list, we need more infoes about pagination
-        const {data = []} = res
+        let {total, limit, offset, data = []} = res
+        total = parseInt(total) || 0
+        limit = parseInt(limit) || DEFAULT_ISSUE_LIST_SIZE
+        offset = parseInt(offset) || DEFAULT_ISSUE_LIST_PAGE
         const action = {
           type: ActionType.ISSUE_LIST_SUCCESS,
           data: {
+            total,
+            limit,
+            offset,
             list: data
           }
         }

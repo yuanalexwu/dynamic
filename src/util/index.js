@@ -55,3 +55,11 @@ export function addApiExtraPostInfo (data = {}) {
   data.platform = PLATFORM
   return data
 }
+
+export function isArray (obj) {
+  return Object.prototype.toString.call(obj) === '[object Array]'
+}
+
+export function isFunc (obj) {
+  return Object.prototype.toString.call(obj) === '[object Function]'
+}

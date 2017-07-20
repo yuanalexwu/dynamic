@@ -2,14 +2,16 @@ import React, {Component} from 'react'
 import './index.css'
 
 class Pagination extends Component {
-  handleClick = (page, size, canFetch) => () => {
-    if (!canFetch) {
-      return false
-    }
-    this.props.onClick(page, size)
-    return false
+  renderPagination = () => {
+    const {page, size, total} = this.props
+    return (
+      <div className='pagination clearfix display-way'>
+        {this.parsePreviousLink(page, size, total)}
+        {this.parseMiddleLink(page, size, total)}
+        {this.parseNextLink(page, size, total)}
+      </div>
+    )
   }
-
   parsePreviousLink = (page, size, total) => {
     let className = 'previous_link'
     let canFetch = true
@@ -103,15 +105,19 @@ class Pagination extends Component {
     )
   }
 
+  handleClick = (page, size, canFetch) => () => {
+    if (!canFetch) {
+      return false
+    }
+    this.props.onClick(page, size)
+    return false
+  }
+
   render () {
-    const {page, size, total, onClick} = this.props // eslint-disable-line
+    const {total = 0} = this.props
     return (
       <div className='clearfix'>
-        <div className='pagination clearfix display-way'>
-          {this.parsePreviousLink(page, size, total)}
-          {this.parseMiddleLink(page, size, total)}
-          {this.parseNextLink(page, size, total)}
-        </div>
+        {total > 0 ? this.renderPagination() : null}
       </div>
     )
   }

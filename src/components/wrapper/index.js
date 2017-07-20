@@ -16,6 +16,7 @@ import TextArea from '../textarea'
 import Upload from '../upload'
 import Label from '../label'
 import {mergeOption} from './common'
+import {isArray} from 'app/util'
 
 /**
  * Convert seconds to microseconds
@@ -78,7 +79,14 @@ class Wrapper extends Component {
       [ISSUE_TYPE_SELECT_NAME]: this.props.getIssueTypeSelect,
       [CONTACT_SELECT_NAME]: this.props.getContactSelect,
     }
+  }
 
+  componentWillMount () {
+    // init data
+    this.initData()
+  }
+
+  initData = () => {
     /**
      * store the `hidden` element that will be submitted to
      * the server
@@ -101,11 +109,19 @@ class Wrapper extends Component {
      * Prevent extra parse for the config, we only need to parse
      * only once
      */
-    // this.isConfigRead = false
+    this.isConfigRead = false
     /**
      * Hold the json config
      */
     this.jsonConfig = []
+    /**
+     * Pushing data to server
+     */
+    this.isSubmitting = false
+    /**
+     * Parsed data for rendering
+     */
+    this.renderConfig = {}
   }
 
   componentWillReceiveProps (nextProps) {
@@ -113,9 +129,12 @@ class Wrapper extends Component {
       jsonConfig = {}, customerSelect, deviceSelect,
       issueTypeSelect, contactSelect
     } = nextProps
+    const {table = []} = jsonConfig
     // 1. get raw configuration from server
-    this.initConfig(jsonConfig)
-    console.log('componentWillReceiveProps() ', jsonConfig)
+    if (table.length > 0 && !this.isConfigRead) {
+      this.initConfig(jsonConfig)
+      console.log('componentWillReceiveProps() ', jsonConfig)
+    }
 
     /**
      * Set select data
@@ -157,7 +176,7 @@ class Wrapper extends Component {
      * create the element referred to the parent state
      */
     this.setState({...this.state, ...state})
-    // this.isConfigRead = true
+    this.isConfigRead = true
   }
 
   /**
@@ -272,7 +291,7 @@ class Wrapper extends Component {
         } else if (type === UPLOAD_ELEMENT_TYPE) {
           state[name] = []
         } else if (type === SELECT_ELEMENT_TYPE) {
-          const hasDefaultOptionValue = typeof defaultValue === 'array'
+          const hasDefaultOptionValue = isArray(defaultValue)
           if (hasDefaultOptionValue) {
             const [key = '', label = ''] = defaultValue
             state[name] = {key, label}
@@ -648,13 +667,17 @@ class Wrapper extends Component {
     const {match = {}} = this.props
     const { params = {} } = match
     const {issue_id: app_uid = ''} = params
-    // form_data = JSON.stringify(form_data)
     const data = {
       app_uid,
       form_data,
     }
     const {history} = this.props
-    this.props.submitData(data, history)
+    this.isSubmitting = true
+    this.forceUpdate()
+    this.props.submitData(data, history, () => {
+      this.isSubmitting = false
+      this.forceUpdate()
+    })
   }
 
   /**
@@ -831,6 +854,7 @@ class Wrapper extends Component {
             style={{width: '200px'}}
             type='primary'
             onClick={this.handleSubmit}
+            disabled={this.isSubmitting}
           >
             提交
           </Button>
