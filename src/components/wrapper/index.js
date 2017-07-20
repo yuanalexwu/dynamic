@@ -101,7 +101,7 @@ class Wrapper extends Component {
      * Prevent extra parse for the config, we only need to parse
      * only once
      */
-    this.isConfigRead = false
+    // this.isConfigRead = false
     /**
      * Hold the json config
      */
@@ -113,12 +113,9 @@ class Wrapper extends Component {
       jsonConfig = {}, customerSelect, deviceSelect,
       issueTypeSelect, contactSelect
     } = nextProps
-    const {table = []} = jsonConfig
     // 1. get raw configuration from server
-    if (table.length > 0 && !this.isConfigRead) {
-      console.log('componentWillReceiveProps() ', jsonConfig)
-      this.initConfig(jsonConfig)
-    }
+    this.initConfig(jsonConfig)
+    console.log('componentWillReceiveProps() ', jsonConfig)
 
     /**
      * Set select data
@@ -160,7 +157,7 @@ class Wrapper extends Component {
      * create the element referred to the parent state
      */
     this.setState({...this.state, ...state})
-    this.isConfigRead = true
+    // this.isConfigRead = true
   }
 
   /**
@@ -274,7 +271,7 @@ class Wrapper extends Component {
           state[name] = moment(defaultValue * TIME_RATE)
         } else if (type === UPLOAD_ELEMENT_TYPE) {
           state[name] = []
-        } else if (type === SELECT_ELEMENT_TYPE && !source) {
+        } else if (type === SELECT_ELEMENT_TYPE) {
           const hasDefaultOptionValue = typeof defaultValue === 'array'
           if (hasDefaultOptionValue) {
             const [key = '', label = ''] = defaultValue
@@ -294,13 +291,15 @@ class Wrapper extends Component {
             }
             this[`${name}_list`] = newOption
           } else {
+            // At last get select data from server
             if (hasDefaultOptionValue) {
               this[`${name}_default_option`] = defaultValue
             }
-            // get select data from server
-            requests.push(() => {
-              this.FETCH_MAP[name]()
-            })
+            if (!source) {
+              requests.push(() => {
+                this.FETCH_MAP[name]()
+              })
+            }
           }
 
           // TODO here we get a problem that we don't know whether the
