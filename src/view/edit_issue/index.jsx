@@ -23,7 +23,7 @@ class EditIssue extends Component {
     const {jsonConfig} = this.props
     return (
       <div>
-        <h3>填写工单信息</h3>
+        <h3>工单信息</h3>
         <Wrapper jsonConfig={jsonConfig} />
       </div>
     )

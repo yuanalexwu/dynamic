@@ -7,7 +7,8 @@ class Select extends Component {
     const {
       value, list, placeholder,
       onChange, className, style = {},
-      validateMessage, validatePosition = 'right', hasError
+      validateMessage, validatePosition = 'right', hasError,
+      disabled
     } = this.props
     const innerStyle = {width: '100%', ...style}
     const options = list.map((option, idx) => {
@@ -42,6 +43,7 @@ class Select extends Component {
           <i className='arrow'><i /></i>
         </div>
         <AntSelect
+          disabled={disabled}
           labelInValue
           showSearch
           size='large'

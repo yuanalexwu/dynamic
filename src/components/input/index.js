@@ -15,7 +15,8 @@ class Input extends Component {
       maxLength,
       readOnly = false,
       style,
-      onChange
+      onChange,
+      disabled
     } = this.props
     // wrapper class name
     if (hasError) {
@@ -36,6 +37,11 @@ class Input extends Component {
       extraProps.style = style
     }
     style.background = '#ffffff'
+    style.border = '1px solid #e2e2e2'
+    style.height = '30px'
+    if (disabled) {
+      style.background = '#f7f7f7'
+    }
 
     let errorClass = 'has-error-word'
     if (validatePosition) {
@@ -49,6 +55,7 @@ class Input extends Component {
           <i className='arrow'><i /></i>
         </div>
         <AntInput
+          disabled={disabled}
           defaultValue={defaultValue}
           value={value}
           onChange={onChange}

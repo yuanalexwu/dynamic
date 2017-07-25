@@ -31,10 +31,10 @@ function baseFetch (option, dispatch) {
     if (status === 200) {
       if (isFunc(success)) success(res)
     } else {
-      if (typeof error === 'function') {
+      if (isFunc(error)) {
         error(msg)
-        console.log(devmsg)
       }
+      console.log(devmsg)
     }
   }).catch(err => {
     dispatch({type: ActionType.HIDE_LOADING})

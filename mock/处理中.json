@@ -43,6 +43,7 @@
         "type": "select",
         "name": "workorder_type",
         "defaultValue": "__workorder_type__",
+        "readOnly": true,
         "option": [
           [
             "10001",
@@ -86,6 +87,7 @@
         "type": "select",
         "name": "customer",
         "defaultValue": "__customer__",
+        "readOnly": true,
         "option": [
           [
             "1001",
@@ -134,6 +136,7 @@
         "id": "device",
         "name": "device",
         "defaultValue": "__device__",
+        "readOnly": true,
         "option": [
           [
             "10001",
@@ -182,6 +185,7 @@
         "name": "contact",
         "sync": "tel",
         "defaultValue": "__contact__",
+        "readOnly": true,
         "option": [
           [
             "13305498556",
@@ -229,6 +233,7 @@
         "type": "input",
         "name": "tel",
         "defaultValue": "__tel__",
+        "readOnly": true,
         "className": [
           "",
           {
@@ -261,6 +266,7 @@
       {
         "type": "textarea",
         "name": "situation",
+        "readOnly": true,
         "className": [
           "text-left",
           {
@@ -274,6 +280,51 @@
           "required": false
         },
         "validateMessage": "验证失败"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "处理情况"
+      },
+      {
+        "type": "textarea",
+        "name": "summary",
+        "className": [
+          "text-left",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "defaultValue": "",
+        "placeholder": "请填写处理情况",
+        "validate": {
+          "required": true
+        },
+        "validateMessage": "请填写处理情况"
+      }
+    ],
+    [
+      {
+        "type": "button",
+        "action": {
+          "type": "submit"
+        },
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3,
+            "offset": 3
+          }
+        ],
+        "defaultValue": "结单"
       }
     ]
   ]

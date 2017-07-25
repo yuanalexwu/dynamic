@@ -1,0 +1,344 @@
+{
+  "border": false,
+  "className": [
+    "font14"
+  ],
+  "style": {},
+  "table": [
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "工单号"
+      },
+      {
+        "type": "label",
+        "defaultValue": "__app_number__",
+        "className": [
+          "",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "工单类型"
+      },
+      {
+        "type": "select",
+        "name": "workorder_type",
+        "defaultValue": "__workorder_type__",
+        "readOnly": true,
+        "option": [
+          [
+            "10001",
+            "故障报修"
+          ],
+          [
+            "10002",
+            "安装调试"
+          ]
+        ],
+        "className": [
+          "",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "title": "工单类型",
+        "style": {
+          "padding": 0
+        },
+        "placeholder": "请选择工单类型",
+        "validate": {
+          "required": true
+        },
+        "validateMessage": "请选择工单"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "客户"
+      },
+      {
+        "type": "select",
+        "name": "customer",
+        "defaultValue": "__customer__",
+        "readOnly": true,
+        "option": [
+          [
+            "1001",
+            "客户1"
+          ],
+          [
+            "1002",
+            "客户2"
+          ],
+          [
+            "1003",
+            "客户3"
+          ]
+        ],
+        "className": [
+          "color-red",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "title": "提示信息",
+        "style": {
+          "padding": 0
+        },
+        "placeholder": "请填选择客户",
+        "validate": {
+          "required": true
+        },
+        "validateMessage": "选择客户"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "设备"
+      },
+      {
+        "type": "select",
+        "id": "device",
+        "name": "device",
+        "defaultValue": "__device__",
+        "readOnly": true,
+        "option": [
+          [
+            "10001",
+            "设备1"
+          ],
+          [
+            "10002",
+            "设备2"
+          ],
+          [
+            "10003",
+            "设备3"
+          ]
+        ],
+        "className": [
+          "color-red",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "title": "提示信息",
+        "style": {
+          "padding": 0
+        },
+        "placeholder": "请填选择设备",
+        "validate": {
+          "required": true
+        },
+        "validateMessage": "选择设备"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "联系人"
+      },
+      {
+        "type": "select",
+        "name": "contact",
+        "sync": "tel",
+        "defaultValue": "__contact__",
+        "readOnly": true,
+        "option": [
+          [
+            "13305498556",
+            "张三"
+          ],
+          [
+            "13305498557",
+            "李四"
+          ],
+          [
+            "13305498558",
+            "王五"
+          ]
+        ],
+        "className": [
+          "",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "title": "联系人",
+        "style": {
+          "padding": 0
+        },
+        "placeholder": "请选择联系人",
+        "validate": {
+          "required": true
+        },
+        "validateMessage": "请选择联系人"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "电话"
+      },
+      {
+        "type": "input",
+        "name": "tel",
+        "defaultValue": "__tel__",
+        "readOnly": true,
+        "className": [
+          "",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "title": "电话",
+        "style": {},
+        "placeholder": "请填写电话",
+        "validate": {
+          "reg": "^1[3|5|7|8][0-9]{9}$|^\\d{3,4}-\\d{8}$|^\\d{8}$",
+          "required": true
+        },
+        "validateMessage": "验证失败",
+        "validatePosition": "right"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "描述"
+      },
+      {
+        "type": "textarea",
+        "name": "situation",
+        "readOnly": true,
+        "className": [
+          "text-left",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "defaultValue": "__situation__",
+        "placeholder": "请填写问题描述",
+        "validate": {
+          "required": false
+        },
+        "validateMessage": "验证失败"
+      }
+    ],
+    [
+      {
+        "type": "label",
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3
+          }
+        ],
+        "defaultValue": "处理方式"
+      },
+      {
+        "type": "select",
+        "name": "treatment",
+        "defaultValue": "",
+        "option": [
+          [
+            "remote",
+            "远程处理"
+          ],
+          [
+            "scene",
+            "现场处理"
+          ]
+        ],
+        "className": [
+          "",
+          {
+            "sm": 6,
+            "offset": 0
+          }
+        ],
+        "style": {
+          "padding": 0
+        },
+        "validate": {
+          "required": true
+        },
+        "validateMessage": "请选择处理方式"
+      }
+    ],
+    [
+      {
+        "type": "button",
+        "action": {
+          "type": "submit"
+        },
+        "className": [
+          "text-right font16 color-super-gray",
+          {
+            "sm": 3,
+            "offset": 3
+          }
+        ],
+        "defaultValue": "提交"
+      }
+    ]
+  ]
+}
+

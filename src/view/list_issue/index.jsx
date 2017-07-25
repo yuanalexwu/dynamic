@@ -1,5 +1,6 @@
 import React from 'react'
 import {parsePathWithAppPrefix} from 'app/util'
+import {TODO} from 'app/common'
 
 const handleClick = (app_uid, history) => () => {
   const path = parsePathWithAppPrefix(`/edit_issue/${app_uid}`)
@@ -9,7 +10,7 @@ const handleClick = (app_uid, history) => () => {
 const ListIssue = ({issue = {}, history}) => {
   const {
     app_number, app_title, app_created_date,
-    app_uid,
+    app_uid, tas_title, app_status
   } = issue
   return (
     <li className='bg-white color-black font14 clearfix'>
@@ -20,7 +21,7 @@ const ListIssue = ({issue = {}, history}) => {
         修改
       </button>
       <p className='font16 job-number font16'>
-        工单号：{app_number}
+        工单号：{app_number} { app_status === TODO ? `流程状态：${tas_title}` : null}
       </p>
       <div className='fl label-info'>
         <p><span className='color-super-gray'>工单名称：</span>{app_title}</p>

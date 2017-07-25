@@ -58,13 +58,15 @@ const CUSTOMER_SELECT_NAME = 'customer'
 const DEVICE_SELECT_NAME = 'device'
 const ISSUE_TYPE_SELECT_NAME = 'issue_type'
 const CONTACT_SELECT_NAME = 'contact'
+const TREATMENT_SELECT_NAME = 'treatment'
 // Hold the total select name
 const SELECT_NAME_LIST = [
   WORKORDER_TYPE_SELECT_NAME,
   CUSTOMER_SELECT_NAME,
   DEVICE_SELECT_NAME,
   ISSUE_TYPE_SELECT_NAME,
-  CONTACT_SELECT_NAME
+  CONTACT_SELECT_NAME,
+  TREATMENT_SELECT_NAME
 ]
 // Select key and label delimter
 const SELECT_SUBMIT_DELIM = '__|__'
@@ -448,7 +450,7 @@ class Wrapper extends Component {
       props.key = key
     }
     if (readOnly) {
-      props.readOnly = readOnly
+      props.disabled = true
     }
     if (title) {
       props.title = title
@@ -608,9 +610,9 @@ class Wrapper extends Component {
       }
       case BUTTON_ELEMENT_TYPE: {
         const {action} = option
-        const {type, handler} = action
+        const {type} = action
         if (type === 'submit') {
-          props.onClick = this.handleSubmit(handler)
+          props.onClick = this.handleSubmit
         }
         break
       }
@@ -674,9 +676,14 @@ class Wrapper extends Component {
     const {history} = this.props
     this.isSubmitting = true
     this.forceUpdate()
-    this.props.submitData(data, history, () => {
+    this.props.submitData(data, history, isSuccess => {
       this.isSubmitting = false
-      this.forceUpdate()
+      if (isSuccess) {
+        this.initData()
+        this.setState = {}
+      } else {
+        this.forceUpdate()
+      }
     })
   }
 
@@ -849,16 +856,6 @@ class Wrapper extends Component {
     return (
       <div>
         {elem}
-        <div className='clearfix text-center'>
-          <Button
-            style={{width: '200px'}}
-            type='primary'
-            onClick={this.handleSubmit}
-            disabled={this.isSubmitting}
-          >
-            提交
-          </Button>
-        </div>
       </div>
     )
   }
